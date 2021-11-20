@@ -1,15 +1,28 @@
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
+import path from 'path';
 import { Server } from 'socket.io';
+require('dotenv').config();
+const { createAdapter } = require('@socket.io/redis-adapter');
+const { createClient } = require('redis');
+
 const app = express();
 
 app.use(cors());
-app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
 app.use('/public', express.static(__dirname + '/public'));
-app.get('/', (_, res) => res.render('home'));
-app.get('/*', (_, res) => res.redirect('/'));
+
+app.use('/', express.static(path.join(__dirname, 'dist')));
+app.get('*', (_, res) =>
+  res.sendFile(path.join(__dirname, '/dist/index.html'))
+);
+
+const pubClient = createClient({
+  host: process.env.REDIS_URL,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASSWORD,
+});
+const subClient = pubClient.duplicate();
 
 const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer, {
@@ -18,6 +31,8 @@ const wsServer = new Server(httpServer, {
     // method: ['GET', 'POST'],
   },
 });
+
+wsServer.adapter(createAdapter(pubClient, subClient));
 
 wsServer.on('connection', (socket) => {
   const transport = socket.conn.transport.name; // in most cases, "polling"
@@ -32,6 +47,15 @@ wsServer.on('connection', (socket) => {
     socket.join(roomName);
     socket.to(roomName).emit('welcome');
   });
+
+  //  MMD
+  socket.on('result_data', (result) => {
+    if (result != 0) {
+      socket.broadcast.emit('result_download', result);
+    }
+  });
+
+  // WEB RTC
   socket.on('offer', (offer, roomName) => {
     console.log('offer');
     socket.to(roomName).emit('offer', offer);
@@ -45,6 +69,7 @@ wsServer.on('connection', (socket) => {
     socket.to(roomName).emit('ice', ice);
   });
 
+  //  Default
   socket.on('disconnect', function () {
     console.log('user disconnected: ', socket.id);
   });

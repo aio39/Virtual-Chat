@@ -2400,6 +2400,16 @@
   "resolved" "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.0.0.tgz"
   "version" "3.0.0"
 
+"@socket.io/redis-adapter@^7.0.1":
+  "integrity" "sha512-0pJRwRW7lH9FCeyMfjOry8qXemhGan2HsapkoKGzh4VkGOP/aVr1ukd5WyUOaIRSsVjBVXnYU0FJNmWAzPqaQw=="
+  "resolved" "https://registry.npmjs.org/@socket.io/redis-adapter/-/redis-adapter-7.0.1.tgz"
+  "version" "7.0.1"
+  dependencies:
+    "debug" "~4.3.1"
+    "notepack.io" "~2.2.0"
+    "socket.io-adapter" "~2.3.0"
+    "uid2" "0.0.3"
+
 "@surma/rollup-plugin-off-main-thread@^1.1.1":
   "integrity" "sha512-yBMPqmd1yEJo/280PAMkychuaALyQ9Lkb5q1ck3mjJrFuEobIfhnQ4J3mbvBoISmR3SWMWV+cGB/I0lCQee79A=="
   "resolved" "https://registry.npmjs.org/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-1.4.2.tgz"
@@ -5322,6 +5332,11 @@
   "integrity" "sha1-3zrhmayt+31ECqrgsp4icrJOxhk="
   "resolved" "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
   "version" "1.0.0"
+
+"denque@^1.5.0":
+  "integrity" "sha512-XwE+iZ4D6ZUB7mfYRMb5wByE8L74HCn30FBN7sWnXksWc1LO1bPDl67pBR9o/kC4z/xSNAwkMYcGgqDV3BE3Hw=="
+  "resolved" "https://registry.npmjs.org/denque/-/denque-1.5.1.tgz"
+  "version" "1.5.1"
 
 "depd@~1.1.2":
   "integrity" "sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak="
@@ -9203,6 +9218,11 @@
     "query-string" "^4.1.0"
     "sort-keys" "^1.0.0"
 
+"notepack.io@~2.2.0":
+  "integrity" "sha512-9b5w3t5VSH6ZPosoYnyDONnUTF8o0UkBw7JLA6eBlYJWyGT1Q3vQa8Hmuj1/X6RYvHjjygBDgw6fJhe0JEojfw=="
+  "resolved" "https://registry.npmjs.org/notepack.io/-/notepack.io-2.2.0.tgz"
+  "version" "2.2.0"
+
 "npm-run-path@^2.0.0":
   "integrity" "sha1-NakjLfo11wZ7TLLd8jV7GHFTbF8="
   "resolved" "https://registry.npmjs.org/npm-run-path/-/npm-run-path-2.0.2.tgz"
@@ -11106,6 +11126,33 @@
     "indent-string" "^4.0.0"
     "strip-indent" "^3.0.0"
 
+"redis-commands@^1.7.0":
+  "integrity" "sha512-nJWqw3bTFy21hX/CPKHth6sfhZbdiHP6bTawSgQBlKOVRG7EZkfHbbHwQJnrE4vsQf0CMNE+3gJ4Fmm16vdVlQ=="
+  "resolved" "https://registry.npmjs.org/redis-commands/-/redis-commands-1.7.0.tgz"
+  "version" "1.7.0"
+
+"redis-errors@^1.0.0", "redis-errors@^1.2.0":
+  "integrity" "sha1-62LSrbFeTq9GEMBK/hUpOEJQq60="
+  "resolved" "https://registry.npmjs.org/redis-errors/-/redis-errors-1.2.0.tgz"
+  "version" "1.2.0"
+
+"redis-parser@^3.0.0":
+  "integrity" "sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ="
+  "resolved" "https://registry.npmjs.org/redis-parser/-/redis-parser-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "redis-errors" "^1.0.0"
+
+"redis@^3.1.2":
+  "integrity" "sha512-grn5KoZLr/qrRQVwoSkmzdbw6pwF+/rwODtrOr6vuBRiR/f3rjSTGupbF90Zpqm2oenix8Do6RV7pYEkGwlKkw=="
+  "resolved" "https://registry.npmjs.org/redis/-/redis-3.1.2.tgz"
+  "version" "3.1.2"
+  dependencies:
+    "denque" "^1.5.0"
+    "redis-commands" "^1.7.0"
+    "redis-errors" "^1.2.0"
+    "redis-parser" "^3.0.0"
+
 "regenerate-unicode-properties@^9.0.0":
   "integrity" "sha512-3E12UeNSPfjrgwjkR81m5J7Aw/T55Tu7nUyZVQYCKEOs+2dkxEY+DpPtZzO4YruuiPb7NkYLVcyJC4+zCbk5pA=="
   "resolved" "https://registry.npmjs.org/regenerate-unicode-properties/-/regenerate-unicode-properties-9.0.0.tgz"
@@ -11899,7 +11946,7 @@
     "source-map-resolve" "^0.5.0"
     "use" "^3.1.0"
 
-"socket.io-adapter@~2.3.3":
+"socket.io-adapter@~2.3.0", "socket.io-adapter@~2.3.3":
   "integrity" "sha512-Qd/iwn3VskrpNO60BeRyCyr8ZWw9CPZyitW4AQwmRZ8zCiyDiL+znRnWX6tDHXnWn1sJrM1+b6Mn6wEDJJ4aYQ=="
   "resolved" "https://registry.npmjs.org/socket.io-adapter/-/socket.io-adapter-2.3.3.tgz"
   "version" "2.3.3"
@@ -12862,6 +12909,11 @@
   "integrity" "sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.5.2.tgz"
   "version" "4.5.2"
+
+"uid2@0.0.3":
+  "integrity" "sha1-SDEm4Rd03y9xuLY53NeZw3YWK4I="
+  "resolved" "https://registry.npmjs.org/uid2/-/uid2-0.0.3.tgz"
+  "version" "0.0.3"
 
 "undefsafe@^2.0.5":
   "integrity" "sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA=="
