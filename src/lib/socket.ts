@@ -1,9 +1,12 @@
 import { io } from 'socket.io-client';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const socket = io('localhost:3001', {
   transports: ['websocket'],
 });
 
+const a = OrbitControls;
+console.log(a);
 // Socket
 
 socket.on('connect', () => {
@@ -31,6 +34,19 @@ socket.on('welcome', async () => {
   socket.emit('offer', offer, window.roomName);
 });
 
+// MMD
+
+let recentTime = Date.now();
+
+socket.on('result_download', (result) => {
+  const now = Date.now();
+  console.log(now - recentTime);
+  recentTime = now;
+  requestAnimationFrame(() => window.animate(result));
+});
+
+// WebRTC
+
 socket.on('offer', async (offer) => {
   window.myPeerConnection.addEventListener('datachannel', (event) => {
     window.myDataChannel = event.channel;
@@ -55,8 +71,6 @@ socket.on('ice', (ice) => {
   console.log('received candidate');
   window.myPeerConnection.addIceCandidate(ice);
 });
-
-//  RTC
 
 export function makeConnection() {
   window.myPeerConnection = new RTCPeerConnection({

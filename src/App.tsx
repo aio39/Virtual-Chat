@@ -22,6 +22,7 @@ declare global {
     myDataChannel: RTCDataChannel;
     myStream: MediaStream;
     roomName: string;
+    animate: (result: any) => void;
   }
 }
 
@@ -35,6 +36,7 @@ export const App = () => {
     <RecoilRoot>
       <ChakraProvider theme={theme}>
         <Box textAlign="center" fontSize="xl">
+          <div id="mmd"></div>
           <Grid minH="100vh" p={3}>
             <ColorModeSwitcher justifySelf="flex-end" />
             <VStack spacing={8}>

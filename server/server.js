@@ -50,6 +50,7 @@ wsServer.on('connection', (socket) => {
 
   //  MMD
   socket.on('result_data', (result) => {
+    // console.log(result);
     if (result != 0) {
       socket.broadcast.emit('result_download', result);
     }
