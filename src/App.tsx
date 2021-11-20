@@ -13,14 +13,8 @@ import { RecoilRoot } from 'recoil';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import Stream from './components/Stream';
 import Welcome from './components/Welcome';
+import { socket } from './lib/socket';
 import { Logo } from './Logo';
-
-let myStream;
-let muted = false;
-let cameraOff = false;
-let roomName;
-let myPeerConnection;
-let myDataChannel;
 
 declare global {
   interface Window {
@@ -33,6 +27,7 @@ declare global {
 
 export const App = () => {
   useEffect(() => {
+    socket.emit('fuck');
     return () => {};
   }, []);
 

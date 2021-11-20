@@ -1,10 +1,19 @@
 import { io } from 'socket.io-client';
 
-const socket = io('localhost:3001');
-
-// Welcome Form (join a room)
+const socket = io('localhost:3001', {
+  transports: ['websocket'],
+});
 
 // Socket
+
+socket.on('connect', () => {
+  console.log(socket.id);
+  console.log(socket.connected);
+});
+
+socket.on('disconnect', () => {
+  console.log(socket.connected); // false
+});
 
 socket.emit('init', () => {
   console.log('init!');
@@ -63,6 +72,7 @@ export function makeConnection() {
       },
     ],
   });
+  console.log(window.myPeerConnection);
   window.myPeerConnection.addEventListener('icecandidate', handleIce);
   window.myPeerConnection.addEventListener('addstream', handleAddStream);
   window.myStream

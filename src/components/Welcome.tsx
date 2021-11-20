@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
 import { Input } from '@chakra-ui/input';
 import { VStack } from '@chakra-ui/layout';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { camerasAtom } from '../lib/recoil/cameraAtom';
 import { makeConnection, socket } from '../lib/socket';
@@ -45,12 +45,6 @@ const Welcome = () => {
   const [visible, setVisible] = useState(true);
   const [inputRoomName, setInputRoomName] = useState('');
   const setCameras = useSetRecoilState(camerasAtom);
-
-  useEffect(() => {
-    const asyncF = async () => {};
-    asyncF();
-    return () => {};
-  }, []);
 
   const initCall = async () => {
     const cameras = await getMedia();
