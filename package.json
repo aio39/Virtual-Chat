@@ -13,16 +13,28 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "express": "^4.17.1",
     "framer-motion": "^4.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^3.0.0",
     "react-scripts": "4.0.3",
+    "recoil": "^0.5.2",
+    "socket.io-client": "^4.4.0",
     "typescript": "^4.3.5",
-    "web-vitals": "^0.2.2"
+    "web-vitals": "^0.2.2",
+    "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/node": "^7.14.7",
+    "@babel/preset-env": "^7.14.7",
+    "nodemon": "^2.0.15"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-server": "nodemon",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
