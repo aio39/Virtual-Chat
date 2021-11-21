@@ -1,21 +1,9 @@
-import {
-  Box,
-  ChakraProvider,
-  Code,
-  Grid,
-  Link,
-  Text,
-  theme,
-  VStack,
-} from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { ChakraProvider, theme } from '@chakra-ui/react';
+import { AnimatePresence } from 'framer-motion';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import MMDRender from './components/MMDRender.js';
-import Stream from './components/Stream';
-import Welcome from './components/Welcome';
-import { socket } from './lib/socket';
-import { Logo } from './Logo';
+import SelectPage from './pages/SelectPage';
+import WelcomePage from './pages/WelcomePage';
 
 declare global {
   interface Window {
@@ -28,38 +16,17 @@ declare global {
 }
 
 export const App = () => {
-  useEffect(() => {
-    socket.emit('fuck');
-    return () => {};
-  }, []);
+  const location = useLocation();
 
   return (
     <RecoilRoot>
       <ChakraProvider theme={theme}>
-        <Box textAlign="center" fontSize="xl">
-          <div id="mmd"></div>
-          <MMDRender></MMDRender>
-          <Grid minH="100vh" p={3}>
-            <ColorModeSwitcher justifySelf="flex-end" />
-            <VStack spacing={8}>
-              <Logo h="40vmin" pointerEvents="none" />
-              <Text>
-                Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-              </Text>
-              <Welcome />
-              <Stream></Stream>
-              <Link
-                color="teal.500"
-                href="https://chakra-ui.com"
-                fontSize="2xl"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn Chakra
-              </Link>
-            </VStack>
-          </Grid>
-        </Box>
+        <AnimatePresence>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="/a" element={<SelectPage />} />
+          </Routes>
+        </AnimatePresence>
       </ChakraProvider>
     </RecoilRoot>
   );

@@ -41,8 +41,7 @@ const getMedia = async (deviceId?: string) => {
   }
 };
 
-const Welcome = () => {
-  const [visible, setVisible] = useState(true);
+const RoomInput = () => {
   const [inputRoomName, setInputRoomName] = useState('');
   const setCameras = useSetRecoilState(camerasAtom);
 
@@ -65,7 +64,7 @@ const Welcome = () => {
   };
 
   return (
-    <VStack visibility={visible ? 'visible' : 'hidden'}>
+    <VStack>
       <form onSubmit={handleWelcomeSubmit}>
         <Input
           value={inputRoomName}
@@ -77,4 +76,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default RoomInput;
