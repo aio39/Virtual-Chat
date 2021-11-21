@@ -44,18 +44,26 @@ wsServer.on('connection', (socket) => {
 
   socket.on('join_room', async (roomName, name, avatar) => {
     console.log(roomName, name, avatar);
-    socket.aData = { name, avatar };
+    socket.aData = { name, avatar, roomName };
 
     const peerSockets = await wsServer.in(roomName).fetchSockets();
-    const peerList = peerSockets.map((socket) => ({
-      name: socket.aData.name,
-      avatar: socket.aData.avatar,
-    }));
+    const peerList = peerSockets
+      .map((socket) => ({
+        name: socket.aData.name,
+        avatar: socket.aData.avatar,
+      }))
+      .filter((data) => data.name !== name);
     console.log(peerList);
-    socket.emit('getPeerList', peerList);
+    socket.to(roomName).emit('getPeerList', peerList);
 
     socket.join(roomName);
     socket.to(roomName).emit('welcome', name, avatar);
+  });
+  // for text chat
+  socket.on('sendMessage', (message) => {
+    socket
+      .to(socket.aData.roomName)
+      .emit('getChatMessage', socket.aData.name, message);
   });
 
   // for py server
@@ -93,6 +101,17 @@ wsServer.on('connection', (socket) => {
   });
 
   //  Default
+  socket.on('disconnecting', async function () {
+    const peerSockets = await wsServer.in(socket.rooms).fetchSockets();
+    const peerList = peerSockets
+      .map((socket) => ({
+        name: socket.aData.name,
+        avatar: socket.aData.avatar,
+      }))
+      .filter((data) => data.name !== socket.aData.name);
+
+    socket.to(socket.rooms).emit('getPeerList', peerList);
+  });
   socket.on('disconnect', function () {
     console.log('user disconnected: ', socket.id);
   });

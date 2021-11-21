@@ -3,6 +3,7 @@ import { Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import MessageChat from '../components/chat/Chat';
 import MMDRender from '../components/MMDRender';
 import Stream from '../components/Stream';
 import {
@@ -44,6 +45,7 @@ const ChatPage = () => {
     socket.on('welcome', welcomeCB);
     socket.on('getPeerList', getPeerListCB);
 
+    // NOTE 이 emit 시작버튼에다가 하면 socket 응답 왔을때 다른 이벤트리스너가 등록이 안된 상태가됨.
     socket.emit('join_room', roomName, userName, myAvatar);
 
     return () => {
@@ -74,11 +76,13 @@ const ChatPage = () => {
         position="relative"
       >
         <MMDRender name={userName} model={myAvatar}></MMDRender>
-        {peersData.map((data) => (
-          <MMDRender name={data.name} model={data.avatar}></MMDRender>
-        ))}
+        <MessageChat />
+        {peersData
+          .filter((data) => data.name !== userName)
+          .map((data) => (
+            <MMDRender name={data.name} model={data.avatar}></MMDRender>
+          ))}
       </HStack>
-
       <Stream></Stream>
       <Link to="/select"></Link>
     </Center>
