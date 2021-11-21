@@ -2,12 +2,13 @@ import { Button } from '@chakra-ui/button';
 import { Image } from '@chakra-ui/image';
 import { Box, Center, HStack, Text } from '@chakra-ui/layout';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { avatar } from '../lib/recoil/shareDataAtom';
 
 const AvatarList = ['miku', 'ai'];
 const SelectPage = () => {
-  const [selected, setSelected] = useState(AvatarList[0]);
+  const [selected, setSelected] = useRecoilState(avatar);
 
   return (
     <Center flexDir="column" width="100vw" height="100vh">
@@ -46,9 +47,12 @@ const SelectPage = () => {
           </motion.div>
         ))}
       </HStack>
-      <Button size="lg" colorScheme="teal" variant="solid">
-        Start
-      </Button>
+      <Link to="/chat">
+        <Button size="lg" colorScheme="teal" variant="solid">
+          Start
+        </Button>
+      </Link>
+
       <Link to="/">
         <Text fontSize="1em" fontWeight="600">
           뒤로가기

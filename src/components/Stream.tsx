@@ -1,32 +1,55 @@
-import { Text, VStack } from '@chakra-ui/layout';
-import { FC } from 'react';
+import { VStack } from '@chakra-ui/layout';
+import { FC, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { camerasAtom } from '../lib/recoil/cameraAtom';
+import { audiosAtom, camerasAtom } from '../lib/recoil/cameraAtom';
+
+const MediaSelector: FC<{
+  medias: MediaDeviceInfo[];
+  current: MediaStreamTrack;
+}> = ({ medias, current }) => {
+  return (
+    <select name="cameras" id="">
+      {medias.map((media, idx) => {
+        return (
+          <option
+            value={media.deviceId}
+            key={media.deviceId}
+            selected={current ? current.label === media.label : idx === 0}
+          >
+            {media.label}
+          </option>
+        );
+      })}
+    </select>
+  );
+};
 
 const Stream: FC = () => {
   const cameras = useRecoilValue(camerasAtom);
-  const currentCamera = window.myStream?.getVideoTracks()[0];
+  const audios = useRecoilValue(audiosAtom);
+  const currentCamera = window.myData.myStream.getVideoTracks()[0];
+  const currentAudio = window.myData.myStream.getAudioTracks()[0];
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.srcObject = window.myData.myStream;
+    }
+  }, []);
 
   return (
     <VStack>
-      <Text fontSize="lg"> Stream </Text>
-      {cameras && (
-        <select name="cameras" id="">
-          {cameras.map((camera) => {
-            return (
-              <option
-                value={camera.deviceId}
-                key={camera.deviceId}
-                selected={currentCamera.label === camera.label}
-              >
-                {camera.label}
-              </option>
-            );
-          })}
-        </select>
-      )}
-
-      <video id="myFace" autoPlay playsInline width="400" height="400"></video>
+      {audios && <MediaSelector current={currentAudio} medias={audios} />}
+      {cameras && <MediaSelector current={currentCamera} medias={cameras} />}
+      <video
+        ref={videoRef}
+        id="myFace"
+        autoPlay
+        playsInline
+        width="400"
+        height="400"
+      ></video>
       <video
         id="peerFace"
         autoPlay

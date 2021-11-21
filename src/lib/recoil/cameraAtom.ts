@@ -5,4 +5,9 @@ const camerasAtom = atom<MediaDeviceInfo[] | undefined>({
   default: undefined, // default value (aka initial value)
 });
 
-export { camerasAtom };
+const audiosAtom = atom<MediaDeviceInfo[] | undefined>({
+  key: 'audios', // unique ID (with respect to other atoms/selectors)
+  default: undefined, // default value (aka initial value)
+});
+
+export { camerasAtom, audiosAtom };

@@ -123,7 +123,7 @@ const MMDContainer = () => {
       render(result);
       // stats.end();
     }
-    window.animate = animate;
+    window.myData.animate = animate;
 
     function render(result) {
       var euler = result.euler;

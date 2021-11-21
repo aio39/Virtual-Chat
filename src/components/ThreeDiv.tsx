@@ -1,5 +1,4 @@
 import { Box, Grid, VStack } from '@chakra-ui/layout';
-import { Stream } from 'stream';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { Logo } from '../Logo';
 import MMDRender from './MMDRender';
@@ -15,7 +14,7 @@ const ThreeDiv = () => {
         <VStack spacing={8}>
           <Logo h="40vmin" pointerEvents="none" />
           <RoomInput />
-          <Stream></Stream>
+          {/* <Stream></Stream> */}
         </VStack>
       </Grid>
     </Box>

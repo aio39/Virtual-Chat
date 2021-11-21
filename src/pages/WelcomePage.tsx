@@ -1,6 +1,5 @@
-import { Center } from '@chakra-ui/layout';
+import { Box, Center } from '@chakra-ui/layout';
 import { Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 import RoomInput from '../components/Welcome';
 const WelcomePage = () => {
   return (
@@ -11,11 +10,12 @@ const WelcomePage = () => {
       flexDir="column"
       //   opacity={0.5}
     >
-      <Text fontSize="20em" fontWeight="600">
-        Virtual Chat
-      </Text>
       <RoomInput></RoomInput>
-      <Link to="/a">/a</Link>
+      <Box position="absolute" zIndex="-100">
+        <Text fontSize="25em" lineHeight="22rem" fontWeight="600">
+          Virtual Chat
+        </Text>
+      </Box>
     </Center>
   );
 };
