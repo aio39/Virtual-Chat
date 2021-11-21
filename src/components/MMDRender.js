@@ -25,6 +25,11 @@ const MMDContainer = ({ order, model }) => {
     let angle_const = 3.1415926 / 180;
     let clock = new THREE.Clock();
 
+    const aspect = 1;
+    const width = parseInt(window.innerWidth / 3);
+    const height = parseInt(window.innerWidth / 3);
+    // const height = parseInt(window.innerHeight / 3);
+
     setTimeout(function () {
       requestAnimationFrame(() => animate({ euler: [0, 0, 0], eye: [0, 0] }));
     }, 2000);
@@ -34,12 +39,7 @@ const MMDContainer = ({ order, model }) => {
     function init() {
       const parent = document.getElementById('mmd' + order);
       parent.innerHTML = ''; // 리액트 새로고침될때 초기화 시키기
-      camera = new THREE.PerspectiveCamera(
-        20,
-        window.innerWidth / window.innerHeight,
-        1,
-        100
-      );
+      camera = new THREE.PerspectiveCamera(20, aspect, 1, 100);
       camera.position.set(0, 0, 16); // x y z 축  , == position.z = 16
 
       // scene
@@ -56,7 +56,7 @@ const MMDContainer = ({ order, model }) => {
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(window.innerWidth / 2, window.innerHeight / 2); // 랜더링될 크기 , 3번쨰 옵션  false주면 100% 크기에 해상도만 바뀜
+      renderer.setSize(width, height); // 랜더링될 크기 , 3번쨰 옵션  false주면 100% 크기에 해상도만 바뀜
       parent.appendChild(renderer.domElement);
 
       effect = new OutlineEffect(renderer);
@@ -111,9 +111,9 @@ const MMDContainer = ({ order, model }) => {
 
     function onWindowResize() {
       console.log('resize window');
-      camera.aspect = window.innerWidth / window.innerHeight;
+      // camera.aspect = aspect;
       camera.updateProjectionMatrix();
-      effect.setSize(window.innerWidth / 2, window.innerHeight / 2);
+      effect.setSize(width, height);
     }
 
     function animate(result) {

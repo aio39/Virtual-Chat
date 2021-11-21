@@ -49,6 +49,7 @@ const Stream: FC = () => {
         playsInline
         width="400"
         height="400"
+        muted
       ></video>
       <video
         id="peerFace"
