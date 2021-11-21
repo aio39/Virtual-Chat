@@ -1,13 +1,8 @@
 import { io } from 'socket.io-client';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const socket = io('localhost:3001', {
   transports: ['websocket'],
 });
-
-const a = OrbitControls;
-console.log(a);
-// Socket
 
 socket.on('connect', () => {
   console.log(socket.id);

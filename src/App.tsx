@@ -11,6 +11,7 @@ import {
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
+import MMDRender from './components/MMDRender.js';
 import Stream from './components/Stream';
 import Welcome from './components/Welcome';
 import { socket } from './lib/socket';
@@ -37,6 +38,7 @@ export const App = () => {
       <ChakraProvider theme={theme}>
         <Box textAlign="center" fontSize="xl">
           <div id="mmd"></div>
+          <MMDRender></MMDRender>
           <Grid minH="100vh" p={3}>
             <ColorModeSwitcher justifySelf="flex-end" />
             <VStack spacing={8}>
