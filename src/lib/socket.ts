@@ -23,7 +23,7 @@ let recentTime = Date.now();
 
 socket.on('result_download', (name, result, videoTimeStamp) => {
   const now = Date.now();
-  console.log('지연시간', now - videoTimeStamp);
+  console.log('지연시간', now - videoTimeStamp, result);
   if (window.myData.animates[name]) {
     requestAnimationFrame(() => window.myData.animates[name](result));
   } else {

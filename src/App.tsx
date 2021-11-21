@@ -2,6 +2,7 @@ import { ChakraProvider, theme } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { DatGUIData } from './components/DatController';
 import ChatPage from './pages/ChatPage';
 import SelectPage from './pages/SelectPage';
 import WelcomePage from './pages/WelcomePage';
@@ -17,7 +18,7 @@ declare global {
       animates: {
         [key: string]: (result: any) => void;
       };
-      // animate:
+      renderByGui: (data: DatGUIData) => void;
     };
   }
 }

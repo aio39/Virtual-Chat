@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import MessageChat from '../components/chat/Chat';
+import DatController from '../components/DatController';
 import MMDRender from '../components/MMDRender';
 import Stream from '../components/Stream';
 import {
@@ -63,9 +64,9 @@ const ChatPage = () => {
       overflow="scroll"
       //   opacity={0.5}
     >
-      <HStack>
-        <Text fontSize="10em" fontWeight="600">
-          {userName}
+      <HStack my="2rem">
+        <Text fontSize="3em" fontWeight="600">
+          user: {userName}, room:
           {roomName}
         </Text>
       </HStack>
@@ -85,6 +86,7 @@ const ChatPage = () => {
       </HStack>
       <Stream></Stream>
       <Link to="/select"></Link>
+      <DatController></DatController>
     </Center>
   );
 };

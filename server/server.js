@@ -38,12 +38,10 @@ wsServer.on('connection', (socket) => {
   const transport = socket.conn.transport.name; // in most cases, "polling"
   console.log('socket', transport, socket.id);
   socket.use((socket, next) => {
-    console.log('미들웨어', socket.id);
     next();
   });
 
   socket.on('join_room', async (roomName, name, avatar) => {
-    console.log(roomName, name, avatar);
     socket.aData = { name, avatar, roomName };
 
     const peerSockets = await wsServer.in(roomName).fetchSockets();
@@ -53,10 +51,10 @@ wsServer.on('connection', (socket) => {
         avatar: socket.aData.avatar,
       }))
       .filter((data) => data.name !== name);
-    console.log(peerList);
-    socket.to(roomName).emit('getPeerList', peerList);
-
+    console.log(peerList, name);
     socket.join(roomName);
+
+    socket.emit('getPeerList', peerList);
     socket.to(roomName).emit('welcome', name, avatar);
   });
   // for text chat

@@ -35,16 +35,25 @@ const MMDContainer = ({ name, model }) => {
     let container, stats, helper;
     let mesh, camera, scene, renderer, effect;
     let head, left_eye, right_eye;
-    let ANGLE_CONST = 3.1415926 / 180;
-    let clock = new THREE.Clock();
+    const ANGLE_CONST = 3.1415926 / 180;
+    const clock = new THREE.Clock();
 
     const aspect = 1;
     const width = parseInt(window.innerWidth / 3);
     const height = parseInt(window.innerWidth / 3);
     // const height = parseInt(window.innerHeight / 3);
 
+    function frame() {
+      helper.update(clock.getDelta());
+      effect.render(scene, camera);
+      requestAnimationFrame(frame);
+    }
+
     setTimeout(function () {
-      requestAnimationFrame(() => animate({ euler: [0, 0, 0], eye: [0, 0] }));
+      requestAnimationFrame(() => {
+        animate({ euler: [0, 0, 0], eye: [0, 0] });
+        // frame();
+      });
     }, 2000);
 
     init();
@@ -137,7 +146,6 @@ const MMDContainer = ({ name, model }) => {
       const eye_euler = result.eye;
       const mouth = result.mouth;
       const blink = result.blink;
-
       if (head) {
         head.rotation.x = Math.round(euler[0]) * ANGLE_CONST;
         head.rotation.y = Math.round(euler[1]) * ANGLE_CONST;
@@ -184,6 +192,20 @@ const MMDContainer = ({ name, model }) => {
         mesh.morphTargetInfluences[eye_index] = 0;
       }
     }
+
+    function renderByGui(data) {
+      camera.position.x = data.cameraX;
+      camera.position.z = data.cameraZ;
+      camera.position.y = data.cameraY;
+
+      mesh.rotation.x = data.meshRotateX;
+      mesh.rotation.z = data.meshRotateZ;
+      mesh.rotation.y = data.meshRotateY;
+
+      helper.update(clock.getDelta());
+      effect.render(scene, camera);
+    }
+    window.myData.renderByGui = renderByGui;
   }, [model, name]);
 
   return <div></div>;
