@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/layout';
 import React, { useEffect } from 'react';
 import * as THREE from 'three';
 import { MMDAnimationHelper } from 'three/examples/jsm/animation/MMDAnimationHelper';
@@ -12,29 +13,17 @@ function onProgress(xhr) {
   }
 }
 
-var modelFile =
-  'http://localhost:3001/public/' + 'models/kizunaai/kizunaai.pmx';
+const modelUrl = (model) => {
+  return `http://localhost:3001/public/models/${model}/${model}.pmx`;
+};
 
-const MMDContainer = () => {
+const MMDContainer = ({ order, model }) => {
   useEffect(() => {
     let container, stats, helper;
     let mesh, camera, scene, renderer, effect;
     let head, left_eye, right_eye;
     let angle_const = 3.1415926 / 180;
     let clock = new THREE.Clock();
-
-    // import('three/examples/js/libs/ammo.wasm').then((Ammo) => {
-    //   console.log('Anmmo', Ammo.default);
-    //   Ammo.default().then(function (AmmoLib) {
-    //     setTimeout(function () {
-    //       requestAnimationFrame(() =>
-    //         animate({ euler: [0, 0, 0], eye: [0, 0] })
-    //       );
-    //     }, 2000);
-
-    //     init();
-    //   });
-    // });
 
     setTimeout(function () {
       requestAnimationFrame(() => animate({ euler: [0, 0, 0], eye: [0, 0] }));
@@ -43,7 +32,8 @@ const MMDContainer = () => {
     init();
 
     function init() {
-      const parent = document.getElementById('mmd');
+      const parent = document.getElementById('mmd' + order);
+      parent.innerHTML = ''; // 리액트 새로고침될때 초기화 시키기
       camera = new THREE.PerspectiveCamera(
         20,
         window.innerWidth / window.innerHeight,
@@ -53,7 +43,7 @@ const MMDContainer = () => {
       camera.position.set(0, 0, 16); // x y z 축  , == position.z = 16
 
       // scene
-
+      console.log(modelUrl(model));
       scene = new THREE.Scene();
       scene.background = new THREE.Color(0xffffff);
 
@@ -78,8 +68,16 @@ const MMDContainer = () => {
 
       const mmdLoader = new MMDLoader();
       helper = new MMDAnimationHelper({ afterglow: 0.0 });
+
+      var modelFile =
+        'http://localhost:3001/public/' + 'models/kizunaai/kizunaai.pmx';
+      const filePath = modelUrl(model);
+      console.log(modelUrl(model));
+      console.log(modelFile);
+      console.log(filePath == modelFile);
+
       mmdLoader.load(
-        modelFile,
+        modelUrl(model),
         function (object) {
           // geometry + material => mesh
           mesh = object;
@@ -177,29 +175,21 @@ const MMDContainer = () => {
         mesh.morphTargetInfluences[eye_index] = 0;
       }
     }
-  }, []);
+  }, [model, order]);
 
-  return <div id="mmd2"></div>;
+  return <div></div>;
 };
 
-const MMDRender = () => {
+const MMDRender = ({ order, model }) => {
+  if (!order) {
+    return <Box>"aaaaaa"</Box>;
+  }
+
   return (
-    <div className="mmd">
-      <MMDContainer />
+    <div id={'mmd' + order}>
+      <MMDContainer order={order} model={model} />
     </div>
   );
 };
 
 export default MMDRender;
-
-// {/* <Canvas mode="concurrent">
-//   <ambientLight color={0x666666} />
-//   {/* <directionalLight color={0x887766} position={[-1, 1, 1]} /> */}
-//   <Suspense fallback={null}>
-//     <mesh background="red">
-//       <perspectiveCamera makeDefault>
-//         {meshs.length > 0 && meshs.map((mesh) => <primitive object={mesh} />)}
-//       </perspectiveCamera>
-//     </mesh>
-//   </Suspense>
-// </Canvas>; */}

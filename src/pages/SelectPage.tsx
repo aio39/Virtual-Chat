@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { avatar } from '../lib/recoil/shareDataAtom';
 
-const AvatarList = ['miku', 'ai'];
+const AvatarList = ['miku', 'kizunaai'];
 const SelectPage = () => {
   const [selected, setSelected] = useRecoilState(avatar);
 
