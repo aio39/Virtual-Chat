@@ -6,9 +6,22 @@ import { OutlineEffect } from 'three/examples/jsm/effects/OutlineEffect';
 // import Stats from 'three/examples/jsm/libs/stats';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader';
 
+const defaultBones = {
+  miku: {
+    head_num: 17,
+    left_eye_num: 98,
+    right_eye_num: 99,
+  },
+  kizunaai: {
+    head_num: 8,
+    left_eye_num: 86,
+    right_eye_num: 88,
+  },
+};
+
 function onProgress(xhr) {
   if (xhr.lengthComputable) {
-    var percentComplete = (xhr.loaded / xhr.total) * 100;
+    const percentComplete = (xhr.loaded / xhr.total) * 100;
     console.log(Math.round(percentComplete, 2) + '% downloaded');
   }
 }
@@ -22,7 +35,7 @@ const MMDContainer = ({ name, model }) => {
     let container, stats, helper;
     let mesh, camera, scene, renderer, effect;
     let head, left_eye, right_eye;
-    let angle_const = 3.1415926 / 180;
+    let ANGLE_CONST = 3.1415926 / 180;
     let clock = new THREE.Clock();
 
     const aspect = 1;
@@ -47,10 +60,10 @@ const MMDContainer = ({ name, model }) => {
       scene = new THREE.Scene();
       scene.background = new THREE.Color(0xffffff);
 
-      var ambient = new THREE.AmbientLight(0x666666);
+      const ambient = new THREE.AmbientLight(0x666666);
       scene.add(ambient);
 
-      var directionalLight = new THREE.DirectionalLight(0x887766);
+      const directionalLight = new THREE.DirectionalLight(0x887766);
       directionalLight.position.set(-1, 1, 1).normalize();
       scene.add(directionalLight);
 
@@ -69,12 +82,7 @@ const MMDContainer = ({ name, model }) => {
       const mmdLoader = new MMDLoader();
       helper = new MMDAnimationHelper({ afterglow: 0.0 });
 
-      var modelFile =
-        'http://localhost:3001/public/' + 'models/kizunaai/kizunaai.pmx';
       const filePath = modelUrl(model);
-      console.log(modelUrl(model));
-      console.log(modelFile);
-      console.log(filePath == modelFile);
 
       mmdLoader.load(
         modelUrl(model),
@@ -89,19 +97,20 @@ const MMDContainer = ({ name, model }) => {
 
           helper.add(mesh, { physics: true });
 
-          var ikHelper = helper.objects.get(mesh).ikSolver.createHelper();
+          const ikHelper = helper.objects.get(mesh).ikSolver.createHelper();
           ikHelper.visible = true;
           scene.add(ikHelper);
 
-          var physicsHelper = helper.objects.get(mesh).physics.createHelper();
+          const physicsHelper = helper.objects.get(mesh).physics.createHelper();
           physicsHelper.visible = false;
           scene.add(physicsHelper);
 
-          var bones = physicsHelper.physics.mesh.skeleton.bones;
+          const bones = physicsHelper.physics.mesh.skeleton.bones;
+          const { head_num, left_eye_num, right_eye_num } = defaultBones[model];
 
-          head = bones[8];
-          left_eye = bones[86];
-          right_eye = bones[88];
+          head = bones[head_num];
+          left_eye = bones[left_eye_num];
+          right_eye = bones[right_eye_num];
         },
         onProgress,
         null
@@ -124,15 +133,15 @@ const MMDContainer = ({ name, model }) => {
     window.myData.animates[name] = animate;
 
     function render(result) {
-      var euler = result.euler;
-      var eye_euler = result.eye;
-      var mouth = result.mouth;
-      var blink = result.blink;
+      const euler = result.euler;
+      const eye_euler = result.eye;
+      const mouth = result.mouth;
+      const blink = result.blink;
 
       if (head) {
-        head.rotation.x = Math.round(euler[0]) * angle_const;
-        head.rotation.y = Math.round(euler[1]) * angle_const;
-        head.rotation.z = Math.round(euler[2]) * angle_const;
+        head.rotation.x = Math.round(euler[0]) * ANGLE_CONST;
+        head.rotation.y = Math.round(euler[1]) * ANGLE_CONST;
+        head.rotation.z = Math.round(euler[2]) * ANGLE_CONST;
       }
 
       if (left_eye) {
@@ -144,7 +153,7 @@ const MMDContainer = ({ name, model }) => {
         right_eye.rotation.x = eye_euler[1];
       }
 
-      var mouth_index, eye_index;
+      let mouth_index, eye_index;
 
       if (mouth > 0.6) mouth_index = 9;
       else if (mouth > 0.4) mouth_index = 12;
