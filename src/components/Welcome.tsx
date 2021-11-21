@@ -5,7 +5,7 @@ import { FormEventHandler } from 'react';
 import { useNavigate } from 'react-router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { audiosAtom, camerasAtom } from '../lib/recoil/cameraAtom';
-import { roomName, userName } from '../lib/recoil/shareDataAtom';
+import { roomNameAtom, userNameAtom } from '../lib/recoil/shareDataAtom';
 import { makeConnection, socket } from '../lib/socket';
 import toast from '../lib/toast';
 
@@ -52,8 +52,8 @@ const getMedia = async (deviceId?: string) => {
 };
 
 const RoomInput = () => {
-  const [inputRoomName, setInputRoomName] = useRecoilState(roomName);
-  const [inputUserName, setInputUserName] = useRecoilState(userName);
+  const [inputRoomName, setInputRoomName] = useRecoilState(roomNameAtom);
+  const [inputUserName, setInputUserName] = useRecoilState(userNameAtom);
   const navigate = useNavigate();
   const setCameras = useSetRecoilState(camerasAtom);
   const setAudios = useSetRecoilState(audiosAtom);
@@ -75,23 +75,23 @@ const RoomInput = () => {
     window.myData.roomName = inputRoomName;
     socket.emit('join_room', inputRoomName);
     console.log('join_room', inputRoomName);
-    setInputRoomName('');
   };
 
+  console.log(inputRoomName, inputUserName);
   return (
     <VStack width={3 / 4} maxWidth="lg" backgroundColor="white" zIndex="100">
       <VStack width="full" spacing={10} px="1rem" py="3rem">
         <Input
           focusBorderColor="pink.400"
-          value={inputRoomName}
-          placeholder="Room Name"
-          onChange={(a) => setInputRoomName(a.target.value)}
-        ></Input>
-        <Input
-          focusBorderColor="pink.400"
           value={inputUserName}
           placeholder="User Name"
           onChange={(a) => setInputUserName(a.target.value)}
+        ></Input>
+        <Input
+          focusBorderColor="pink.400"
+          value={inputRoomName}
+          placeholder="Room Name"
+          onChange={(a) => setInputRoomName(a.target.value)}
         ></Input>
         <Button type="submit" onClick={handleWelcomeSubmit}>
           A Room

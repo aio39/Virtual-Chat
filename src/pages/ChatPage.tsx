@@ -2,10 +2,19 @@ import { Center, HStack } from '@chakra-ui/layout';
 import { Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import MMDRender from '../components/MMDRender';
 import Stream from '../components/Stream';
+import {
+  avatarAtom,
+  roomNameAtom,
+  userNameAtom,
+} from '../lib/recoil/shareDataAtom';
 const ChatPage = () => {
   useEffect(() => {}, []);
+  const userName = useRecoilValue(userNameAtom);
+  const roomName = useRecoilValue(roomNameAtom);
+  const myAvatar = useRecoilValue(avatarAtom);
 
   return (
     <Center
@@ -18,8 +27,12 @@ const ChatPage = () => {
     >
       <HStack>
         <Text fontSize="10em" fontWeight="600">
-          Chat111
+          {userName}
+          {roomName}
         </Text>
+        {/* <Text fontSize="10em" fontWeight="600">
+          {roomName}
+        </Text> */}
       </HStack>
       <HStack
         width="100vw"
@@ -27,8 +40,8 @@ const ChatPage = () => {
         justifyContent="space-around"
         position="relative"
       >
-        <MMDRender order={2} model="miku"></MMDRender>
-        <MMDRender order={1} model="kizunaai"></MMDRender>
+        <MMDRender name={userName} model={myAvatar}></MMDRender>
+        <MMDRender name={'peer'} model="kizunaai"></MMDRender>
       </HStack>
 
       <Stream></Stream>

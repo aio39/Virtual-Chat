@@ -6,19 +6,19 @@ const generateRandomName = (size: number = 5) => {
     .substr(1, size + 1);
 };
 
-const roomName = atom<string>({
+const roomNameAtom = atom<string>({
   key: 'roomName',
   default: generateRandomName(5),
 });
 
-const userName = atom<string>({
+const userNameAtom = atom<string>({
   key: 'userName',
   default: generateRandomName(5),
 });
 
-const avatar = atom<string>({
+const avatarAtom = atom<string>({
   key: 'avatar',
   default: 'miku',
 });
 
-export { roomName, userName, avatar };
+export { roomNameAtom, userNameAtom, avatarAtom };

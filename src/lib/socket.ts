@@ -34,11 +34,14 @@ socket.on('welcome', async () => {
 
 let recentTime = Date.now();
 
-socket.on('result_download', (result) => {
+socket.on('result_download', (name, result, videoTimeStamp) => {
   const now = Date.now();
-  console.log(now - recentTime);
-  recentTime = now;
-  requestAnimationFrame(() => window.myData.animate(result));
+  console.log('지연시간', now - videoTimeStamp);
+  if (window.myData.animates[name]) {
+    requestAnimationFrame(() => window.myData.animates[name](result));
+  } else {
+    console.info('같은 이름의 사용자가 없습니다.');
+  }
 });
 
 // WebRTC

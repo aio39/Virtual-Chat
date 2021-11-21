@@ -17,7 +17,7 @@ const modelUrl = (model) => {
   return `http://localhost:3001/public/models/${model}/${model}.pmx`;
 };
 
-const MMDContainer = ({ order, model }) => {
+const MMDContainer = ({ name, model }) => {
   useEffect(() => {
     let container, stats, helper;
     let mesh, camera, scene, renderer, effect;
@@ -37,7 +37,7 @@ const MMDContainer = ({ order, model }) => {
     init();
 
     function init() {
-      const parent = document.getElementById('mmd' + order);
+      const parent = document.getElementById('mmd' + name);
       parent.innerHTML = ''; // 리액트 새로고침될때 초기화 시키기
       camera = new THREE.PerspectiveCamera(20, aspect, 1, 100);
       camera.position.set(0, 0, 16); // x y z 축  , == position.z = 16
@@ -121,7 +121,7 @@ const MMDContainer = ({ order, model }) => {
       render(result);
       // stats.end();
     }
-    window.myData.animate = animate;
+    window.myData.animates[name] = animate;
 
     function render(result) {
       var euler = result.euler;
@@ -175,19 +175,19 @@ const MMDContainer = ({ order, model }) => {
         mesh.morphTargetInfluences[eye_index] = 0;
       }
     }
-  }, [model, order]);
+  }, [model, name]);
 
   return <div></div>;
 };
 
-const MMDRender = ({ order, model }) => {
-  if (!order) {
+const MMDRender = ({ name, model }) => {
+  if (!name) {
     return <Box>"aaaaaa"</Box>;
   }
 
   return (
-    <div id={'mmd' + order}>
-      <MMDContainer order={order} model={model} />
+    <div id={'mmd' + name}>
+      <MMDContainer name={name} model={model} />
     </div>
   );
 };

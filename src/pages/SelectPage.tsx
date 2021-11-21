@@ -4,11 +4,11 @@ import { Box, Center, HStack, Text } from '@chakra-ui/layout';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { avatar } from '../lib/recoil/shareDataAtom';
+import { avatarAtom } from '../lib/recoil/shareDataAtom';
 
 const AvatarList = ['miku', 'kizunaai'];
 const SelectPage = () => {
-  const [selected, setSelected] = useRecoilState(avatar);
+  const [selected, setSelected] = useRecoilState(avatarAtom);
 
   return (
     <Center flexDir="column" width="100vw" height="100vh">

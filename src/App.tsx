@@ -13,13 +13,16 @@ declare global {
       myDataChannel: RTCDataChannel;
       myStream: MediaStream;
       roomName: string;
-      animate: (result: any) => void;
+      animates: {
+        [key: string]: (result: any) => void;
+      };
+      // animate:
     };
   }
 }
 
 // @ts-ignore
-window.myData = {};
+window.myData = { animates: {} };
 
 export const App = () => {
   const location = useLocation();

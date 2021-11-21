@@ -48,11 +48,23 @@ wsServer.on('connection', (socket) => {
     socket.to(roomName).emit('welcome');
   });
 
+  // for py server
+  socket.on('join_py_room', (roomName) => {
+    console.log('py', roomName);
+    socket.roomName = roomName;
+    socket.join(roomName + 'py');
+
+    const count = wsServer.sockets.adapter.rooms.get(roomName + 'py').size;
+
+    socket.emit('return_py_order', count);
+  });
+
   //  MMD
   socket.on('result_data', (result) => {
-    // console.log(result);
+    console.log(result.name);
     if (result != 0) {
-      socket.broadcast.emit('result_download', result);
+      const { name, result_string, start_time } = result;
+      socket.broadcast.emit('result_download', name, result_string, start_time);
     }
   });
 
