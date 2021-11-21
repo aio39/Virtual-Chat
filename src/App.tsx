@@ -12,6 +12,7 @@ declare global {
       myPeerConnection: RTCPeerConnection;
       myDataChannel: RTCDataChannel;
       myStream: MediaStream;
+      peerStream: MediaStream;
       roomName: string;
       animates: {
         [key: string]: (result: any) => void;

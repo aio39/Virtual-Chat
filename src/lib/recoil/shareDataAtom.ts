@@ -21,4 +21,9 @@ const avatarAtom = atom<string>({
   default: 'miku',
 });
 
-export { roomNameAtom, userNameAtom, avatarAtom };
+const peersDataAtom = atom<{ name: string; avatar: string }[]>({
+  key: 'peerData',
+  default: [],
+});
+
+export { roomNameAtom, userNameAtom, avatarAtom, peersDataAtom };

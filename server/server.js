@@ -42,10 +42,20 @@ wsServer.on('connection', (socket) => {
     next();
   });
 
-  socket.on('join_room', (roomName) => {
-    console.log(roomName);
+  socket.on('join_room', async (roomName, name, avatar) => {
+    console.log(roomName, name, avatar);
+    socket.aData = { name, avatar };
+
+    const peerSockets = await wsServer.in(roomName).fetchSockets();
+    const peerList = peerSockets.map((socket) => ({
+      name: socket.aData.name,
+      avatar: socket.aData.avatar,
+    }));
+    console.log(peerList);
+    socket.emit('getPeerList', peerList);
+
     socket.join(roomName);
-    socket.to(roomName).emit('welcome');
+    socket.to(roomName).emit('welcome', name, avatar);
   });
 
   // for py server
@@ -63,8 +73,8 @@ wsServer.on('connection', (socket) => {
   socket.on('result_data', (result) => {
     console.log(result.name);
     if (result != 0) {
-      const { name, result_string, start_time } = result;
-      socket.broadcast.emit('result_download', name, result_string, start_time);
+      const { room, name, result_string, start_time } = result;
+      socket.to(room).emit('result_download', name, result_string, start_time);
     }
   });
 

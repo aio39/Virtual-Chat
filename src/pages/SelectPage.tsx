@@ -1,9 +1,9 @@
-import { Button } from '@chakra-ui/button';
 import { Image } from '@chakra-ui/image';
 import { Box, Center, HStack, Text } from '@chakra-ui/layout';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import StartBtn from '../components/StartBtn';
 import { avatarAtom } from '../lib/recoil/shareDataAtom';
 
 const AvatarList = ['miku', 'kizunaai'];
@@ -32,6 +32,7 @@ const SelectPage = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setSelected(name)}
+            key={name}
           >
             <Image
               border={selected === name ? '6px' : '1px'}
@@ -47,12 +48,7 @@ const SelectPage = () => {
           </motion.div>
         ))}
       </HStack>
-      <Link to="/chat">
-        <Button size="lg" colorScheme="teal" variant="solid">
-          Start
-        </Button>
-      </Link>
-
+      <StartBtn />
       <Link to="/">
         <Text fontSize="1em" fontWeight="600">
           뒤로가기

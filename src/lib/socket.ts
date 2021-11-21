@@ -17,19 +17,6 @@ socket.emit('init', () => {
   console.log('init!');
 });
 
-socket.on('welcome', async () => {
-  window.myData.myDataChannel =
-    window.myData.myPeerConnection.createDataChannel('chat');
-  window.myData.myDataChannel.addEventListener('message', (event) =>
-    console.log(event.data)
-  );
-  console.log('made data channel');
-  const offer = await window.myData.myPeerConnection.createOffer();
-  window.myData.myPeerConnection.setLocalDescription(offer);
-  console.log('sent the offer');
-  socket.emit('offer', offer, window.myData.roomName);
-});
-
 // MMD
 
 let recentTime = Date.now();
@@ -85,7 +72,9 @@ export function makeConnection() {
       },
     ],
   });
+
   console.log(window.myData.myPeerConnection);
+
   window.myData.myPeerConnection.addEventListener('icecandidate', handleIce);
   window.myData.myPeerConnection.addEventListener('addstream', handleAddStream);
   window.myData.myStream
@@ -102,7 +91,8 @@ function handleIce(data: RTCPeerConnectionIceEvent) {
 
 const handleAddStream: EventListenerOrEventListenerObject = (data: any) => {
   const peerFace = document.getElementById('peerFace') as HTMLVideoElement;
-  peerFace.srcObject = data.stream;
+  window.myData.peerStream = data.stream;
+  // peerFace.srcObject = data.stream;
 };
 
 export { socket };

@@ -31,10 +31,14 @@ const Stream: FC = () => {
   const currentAudio = window.myData.myStream.getAudioTracks()[0];
 
   const videoRef = useRef<HTMLVideoElement>(null);
+  const videoPeerRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.srcObject = window.myData.myStream;
+    }
+    if (videoPeerRef.current) {
+      videoPeerRef.current.srcObject = window.myData.peerStream;
     }
   }, []);
 
@@ -52,6 +56,7 @@ const Stream: FC = () => {
         muted
       ></video>
       <video
+        ref={videoPeerRef}
         id="peerFace"
         autoPlay
         playsInline

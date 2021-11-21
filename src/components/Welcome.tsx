@@ -4,52 +4,9 @@ import { VStack } from '@chakra-ui/layout';
 import { FormEventHandler } from 'react';
 import { useNavigate } from 'react-router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import { getMedia } from '../lib/handleMedia';
 import { audiosAtom, camerasAtom } from '../lib/recoil/cameraAtom';
 import { roomNameAtom, userNameAtom } from '../lib/recoil/shareDataAtom';
-import { makeConnection, socket } from '../lib/socket';
-import toast from '../lib/toast';
-
-const getCameras = async () => {
-  try {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const cameras = devices.filter((device) => device.kind === 'videoinput');
-    const audios = devices.filter((device) => device.kind === 'audioinput');
-    return [cameras, audios];
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const getMedia = async (deviceId?: string) => {
-  console.info('getMedia');
-  const initialConstrains = {
-    audio: true,
-    video: { facingMode: 'user' }, // 전면 카메라
-  };
-
-  const cameraConstraints = {
-    audio: true,
-    video: { deviceId: { exact: deviceId } },
-  };
-
-  try {
-    const myStream = await navigator.mediaDevices.getUserMedia(
-      deviceId ? cameraConstraints : initialConstrains
-    );
-    console.log('myStream', myStream);
-    window.myData.myStream = myStream;
-
-    // const myFace = document.getElementById('myFace') as HTMLVideoElement;
-    // myFace.srcObject = myStream;
-
-    if (!deviceId) {
-      return await getCameras();
-    }
-  } catch (e) {
-    toast({ title: '장치가 확인되지 않습니다.' });
-    console.error('at getMedia', e);
-  }
-};
 
 const RoomInput = () => {
   const [inputRoomName, setInputRoomName] = useRecoilState(roomNameAtom);
@@ -63,18 +20,14 @@ const RoomInput = () => {
     if (devices) {
       setCameras(devices[0]);
       setAudios(devices[1]);
-      makeConnection();
+      navigate('/select');
     }
   };
 
   const handleWelcomeSubmit: FormEventHandler = async (event: any) => {
     event.preventDefault();
-    navigate('/select');
-
     await initCall();
     window.myData.roomName = inputRoomName;
-    socket.emit('join_room', inputRoomName);
-    console.log('join_room', inputRoomName);
   };
 
   console.log(inputRoomName, inputUserName);

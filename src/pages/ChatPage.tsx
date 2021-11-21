@@ -2,20 +2,56 @@ import { Center, HStack } from '@chakra-ui/layout';
 import { Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import MMDRender from '../components/MMDRender';
 import Stream from '../components/Stream';
 import {
   avatarAtom,
+  peersDataAtom,
   roomNameAtom,
   userNameAtom,
 } from '../lib/recoil/shareDataAtom';
+import { socket } from '../lib/socket';
 const ChatPage = () => {
-  useEffect(() => {}, []);
   const userName = useRecoilValue(userNameAtom);
   const roomName = useRecoilValue(roomNameAtom);
   const myAvatar = useRecoilValue(avatarAtom);
+  const [peersData, setPeersData] = useRecoilState(peersDataAtom);
 
+  useEffect(() => {
+    const welcomeCB = async (name: string, avatar: string) => {
+      window.myData.myDataChannel =
+        window.myData.myPeerConnection.createDataChannel('chat');
+      window.myData.myDataChannel.addEventListener('message', (event) =>
+        console.log(event.data)
+      );
+      console.log('made data channel');
+
+      setPeersData((prev) => [...prev, { name, avatar }]);
+
+      const offer = await window.myData.myPeerConnection.createOffer();
+      window.myData.myPeerConnection.setLocalDescription(offer);
+
+      console.log('sent the offer');
+      socket.emit('offer', offer, window.myData.roomName);
+    };
+
+    const getPeerListCB = (peerList: any) => {
+      setPeersData(peerList);
+      console.log('peerList', peerList);
+    };
+
+    socket.on('welcome', welcomeCB);
+    socket.on('getPeerList', getPeerListCB);
+
+    socket.emit('join_room', roomName, userName, myAvatar);
+
+    return () => {
+      socket.off('welcome', welcomeCB);
+      socket.off('getPeerList', getPeerListCB);
+    };
+  }, [setPeersData]);
+  console.log(peersData);
   return (
     <Center
       width="100vw"
@@ -30,9 +66,6 @@ const ChatPage = () => {
           {userName}
           {roomName}
         </Text>
-        {/* <Text fontSize="10em" fontWeight="600">
-          {roomName}
-        </Text> */}
       </HStack>
       <HStack
         width="100vw"
@@ -41,11 +74,13 @@ const ChatPage = () => {
         position="relative"
       >
         <MMDRender name={userName} model={myAvatar}></MMDRender>
-        <MMDRender name={'peer'} model="kizunaai"></MMDRender>
+        {peersData.map((data) => (
+          <MMDRender name={data.name} model={data.avatar}></MMDRender>
+        ))}
       </HStack>
 
       <Stream></Stream>
-      <Link to="/select">/select</Link>
+      <Link to="/select"></Link>
     </Center>
   );
 };
