@@ -27,7 +27,7 @@ function onProgress(xhr) {
 }
 
 const modelUrl = (model) => {
-  return `http://localhost:3001/public/models/${model}/${model}.pmx`;
+  return `${process.env.REACT_APP_URL}/public/models/${model}/${model}.pmx`;
 };
 
 const MMDContainer = ({ name, model }) => {
