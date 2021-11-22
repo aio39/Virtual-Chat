@@ -16,7 +16,7 @@ const SelectPage = () => {
         position="absolute"
         width="100vw"
         height="100vh"
-        backgroundImage={`url("http://localhost:3001/public/image/${selected}.jpg")`}
+        backgroundImage={`url("${process.env.REACT_APP_URL}/public/image/${selected}.jpg")`}
         backgroundSize="cover"
         zIndex="-1"
         opacity="0.5"
