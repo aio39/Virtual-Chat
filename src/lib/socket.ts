@@ -92,7 +92,7 @@ function handleIce(data: RTCPeerConnectionIceEvent) {
 const handleAddStream: EventListenerOrEventListenerObject = (data: any) => {
   const peerFace = document.getElementById('peerFace') as HTMLVideoElement;
   window.myData.peerStream = data.stream;
-  // peerFace.srcObject = data.stream;
+  peerFace.srcObject = data.stream;
 };
 
 export { socket };
