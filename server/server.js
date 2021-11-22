@@ -13,6 +13,9 @@ app.use(cors());
 app.use('/public', express.static(__dirname + '/public'));
 
 app.use('/', express.static(path.join(__dirname, 'dist')));
+app.get('/api/test', (_, res) => {
+  res.json({ test: 'success' });
+});
 app.get('*', (_, res) =>
   res.sendFile(path.join(__dirname, '/dist/index.html'))
 );
@@ -119,4 +122,4 @@ wsServer.on('connection', (socket) => {
 });
 
 const handleListen = () => console.log(`Listening on http://localhost:3001`);
-httpServer.listen(3001, handleListen);
+httpServer.listen(process.env.PORT || 80, handleListen);

@@ -39,7 +39,9 @@ const SelectPage = () => {
               borderColor="green"
               shadow="lg"
               boxSize="300px"
-              src={`http://localhost:3001/public/image/${name}.jpg`}
+              src={`${
+                process.env.REACT_APP_URL as string
+              }/public/image/${name}.jpg`}
               objectFit="cover"
               alt={`Select ${name}`}
               borderRadius="2rem"

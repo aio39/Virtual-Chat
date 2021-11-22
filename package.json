@@ -44,7 +44,9 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cd server && npm install && npm start",
+    "heroku-postbuild": "BUILD_PATH='./server/dist' npm install && npm run build",
+    "start-react": "react-scripts start",
     "start-server": "nodemon",
     "build": "react-scripts build",
     "test": "react-scripts test",
