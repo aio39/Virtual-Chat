@@ -18,11 +18,13 @@ const getMedia = async (videoDeviceId?: string, audioDeviceId?: string) => {
     video: { facingMode: 'user' }, // 전면 카메라
   };
 
+  console.log('id', videoDeviceId);
   const cameraConstraints = {
-    audio: { deviceId: audioDeviceId },
-    video: { deviceId: videoDeviceId },
+    // audio: { deviceId: { exact: audioDeviceId } },
+    // audio: true,
+    video: { deviceId: { exact: videoDeviceId } },
+    // video: true,
   };
-
   try {
     const myStream = await navigator.mediaDevices.getUserMedia(
       videoDeviceId || audioDeviceId ? cameraConstraints : initialConstrains
@@ -30,15 +32,14 @@ const getMedia = async (videoDeviceId?: string, audioDeviceId?: string) => {
     console.log('myStream', myStream);
     window.myData.myStream = myStream;
 
-    // const myFace = document.getElementById('myFace') as HTMLVideoElement;
-    // myFace.srcObject = myStream;
-
-    if (!videoDeviceId) {
+    if (!videoDeviceId && !audioDeviceId) {
       return await getCameras();
     }
   } catch (e) {
     toast({ title: '장치가 확인되지 않습니다.' });
-    console.error('at getMedia', e);
+    console.error('at getMedia');
+    console.error(e);
+    console.error(cameraConstraints);
   }
 };
 

@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil';
 import { DatGUIData } from './components/DatController';
 import ChatPage from './pages/ChatPage';
 import SelectPage from './pages/SelectPage';
+import TestPage from './pages/TestPage';
 import WelcomePage from './pages/WelcomePage';
 
 declare global {
@@ -37,6 +38,7 @@ export const App = () => {
             <Route path="/" element={<WelcomePage />} />
             <Route path="/select" element={<SelectPage />} />
             <Route path="/chat" element={<ChatPage />} />
+            <Route path="/test" element={<TestPage />} />
           </Routes>
         </AnimatePresence>
       </ChakraProvider>
