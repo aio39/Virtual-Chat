@@ -82,6 +82,7 @@ const MessageChat = () => {
         type="text"
         placeholder="type your message"
         value={message}
+        color="black"
         onChange={(a) => {
           setMessage(a.target.value);
         }}

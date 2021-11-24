@@ -1,8 +1,10 @@
-import { VStack } from '@chakra-ui/layout';
+import { Box, HStack, VStack } from '@chakra-ui/layout';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { getMedia } from '../lib/handleMedia';
 import { audiosAtom, camerasAtom } from '../lib/recoil/cameraAtom';
+
+const aWidth = window.innerWidth / 3;
 
 const Stream: FC = () => {
   const cameras = useRecoilValue(camerasAtom);
@@ -72,30 +74,37 @@ const Stream: FC = () => {
 
   return (
     <VStack>
-      {audios && (
+      {/* {audios && (
         <MediaSelector current={currentAudio} medias={audios} type="audio" />
       )}
       {cameras && (
         <MediaSelector current={currentCamera} medias={cameras} type="video" />
-      )}
-      <video
-        ref={videoRef}
-        id="myFace"
-        autoPlay
-        playsInline
-        width="400"
-        height="400"
-        muted
-      ></video>
-      <video
-        ref={videoPeerRef}
-        id="peerFace"
-        autoPlay
-        playsInline
-        width="400"
-        height="400"
-      ></video>
-      <audio ref={audioRef} autoPlay controls></audio>
+      )} */}
+      <HStack width="full" px={3}>
+        <Box width={aWidth}>
+          <video
+            ref={videoRef}
+            id="myFace"
+            autoPlay
+            playsInline
+            width={aWidth}
+            height="400"
+            muted
+          ></video>
+          {/* <audio ref={audioRef} autoPlay controls></audio> */}
+        </Box>
+        <Box width={aWidth}></Box>
+        <Box width={aWidth}>
+          <video
+            ref={videoPeerRef}
+            id="peerFace"
+            autoPlay
+            playsInline
+            width={aWidth}
+            height="400"
+          ></video>
+        </Box>
+      </HStack>
     </VStack>
   );
 };

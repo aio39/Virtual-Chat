@@ -60,7 +60,8 @@ const ChatPage = () => {
     <Center
       width="100vw"
       minHeight="100vh"
-      backgroundColor="#39c5bb"
+      backgroundColor="#292841"
+      color="white"
       flexDir="column"
       overflow="scroll"
       //   opacity={0.5}
