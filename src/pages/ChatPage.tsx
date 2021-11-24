@@ -67,16 +67,10 @@ const ChatPage = () => {
     >
       <HStack my="2rem">
         <Text fontSize="3em" fontWeight="600">
-          user: {userName}, room:
-          {roomName}
+          Room: {roomName}
         </Text>
       </HStack>
-      <HStack
-        width="100vw"
-        height="623px"
-        justifyContent="space-around"
-        position="relative"
-      >
+      <HStack width="100vw" justifyContent="space-around" position="relative">
         <MMDRender name={userName} model={myAvatar}></MMDRender>
         <MessageChat />
         {peersData.length === 0 ? (
@@ -95,6 +89,9 @@ const ChatPage = () => {
             ))
         )}
       </HStack>
+
+      <DatController></DatController>
+
       {window.myData.myStream ? (
         <Stream></Stream>
       ) : (
@@ -102,7 +99,6 @@ const ChatPage = () => {
       )}
 
       <Link to="/select"></Link>
-      <DatController></DatController>
     </Center>
   );
 };

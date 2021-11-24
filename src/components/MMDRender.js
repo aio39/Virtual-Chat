@@ -11,11 +11,15 @@ const defaultBones = {
     head_num: 17,
     left_eye_num: 98,
     right_eye_num: 99,
+    right_arm_num: 20,
+    left_arm_num: 60,
   },
   kizunaai: {
     head_num: 8,
     left_eye_num: 86,
     right_eye_num: 88,
+    right_arm_num: 99,
+    left_arm_num: 99,
   },
 };
 
@@ -36,7 +40,7 @@ const MMDContainer = ({ name, model }) => {
   useEffect(() => {
     let container, stats, helper;
     let mesh, camera, scene, renderer, effect;
-    let head, left_eye, right_eye;
+    let head, left_eye, right_eye, left_arm, right_arm;
     const ANGLE_CONST = 3.1415926 / 180;
     const clock = new THREE.Clock();
 
@@ -117,11 +121,25 @@ const MMDContainer = ({ name, model }) => {
           scene.add(physicsHelper);
 
           const bones = physicsHelper.physics.mesh.skeleton.bones;
-          const { head_num, left_eye_num, right_eye_num } = defaultBones[model];
+          const {
+            head_num,
+            left_eye_num,
+            right_eye_num,
+            right_arm_num,
+            left_arm_num,
+          } = defaultBones[model];
 
           head = bones[head_num];
           left_eye = bones[left_eye_num];
           right_eye = bones[right_eye_num];
+          right_arm = bones[right_arm_num];
+          left_arm = bones[left_arm_num];
+
+          right_arm.rotation.y = -30;
+          right_arm.rotation.x = 10;
+
+          // left_arm.rotation.y = +30;
+          // left_arm.rotation.x = 10;
         },
         onProgress,
         null
