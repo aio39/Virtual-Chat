@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import MessageChat from '../components/chat/Chat';
 import DatController from '../components/DatController';
+import LoadingDiv from '../components/LoadingDiv';
 import MMDRender from '../components/MMDRender';
 import Stream from '../components/Stream';
 import {
@@ -79,11 +80,13 @@ const ChatPage = () => {
         <MMDRender name={userName} model={myAvatar}></MMDRender>
         <MessageChat />
         {peersData.length === 0 ? (
-          <Box
+          <Center
             width={window.innerWidth / 3}
             height={window.innerWidth / 3}
             bgColor="white"
-          ></Box>
+          >
+            <LoadingDiv></LoadingDiv>
+          </Center>
         ) : (
           peersData
             .filter((data) => data.name !== userName)

@@ -1,24 +1,36 @@
 import { Input } from '@chakra-ui/input';
-import { Box, VStack } from '@chakra-ui/layout';
-import { FC, useEffect, useRef, useState } from 'react';
+import { Box, BoxProps, VStack } from '@chakra-ui/layout';
+import { motion } from 'framer-motion';
+import { FC, memo, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userNameAtom } from '../../lib/recoil/shareDataAtom';
 import { socket } from '../../lib/socket';
 
-const OneChat: FC<{ name: string; message: string }> = ({ name, message }) => {
-  const userName = useRecoilValue(userNameAtom);
-  return (
-    <Box
-      backgroundColor="#39c5bb"
-      alignSelf={name === userName ? 'start' : 'end'}
-      p="2"
-      textColor="white"
-      rounded="1rem"
-    >
-      {message}
-    </Box>
-  );
-};
+const MotionBox = motion<BoxProps>(Box);
+
+const OneChat: FC<{ name: string; message: string }> = memo(
+  ({ name, message }) => {
+    const userName = useRecoilValue(userNameAtom);
+    const isMyMessage = name === userName;
+    const repair = isMyMessage ? -1 : 1;
+    return (
+      <MotionBox
+        backgroundColor="#39c5bb"
+        alignSelf={isMyMessage ? 'start' : 'end'}
+        p="2"
+        textColor="white"
+        rounded="1rem"
+        initial={{ x: 300 * repair }}
+        animate={{ x: 0 }}
+        maxW="100%"
+        display="inline-block"
+        overflowWrap="break-word"
+      >
+        {message}
+      </MotionBox>
+    );
+  }
+);
 
 const MessageChat = () => {
   const userName = useRecoilValue(userNameAtom);
