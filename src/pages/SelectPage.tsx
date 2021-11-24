@@ -8,7 +8,8 @@ import { avatarAtom } from '../lib/recoil/shareDataAtom';
 
 const MotionBox = motion<BoxProps>(Box);
 
-const AvatarList = ['miku', 'kizunaai'];
+export const AvatarList = ['miku', 'kizunaai'];
+
 const SelectPage = () => {
   const [selected, setSelected] = useRecoilState(avatarAtom);
   const controls = useAnimation();
