@@ -43,16 +43,22 @@ const LogoSVG = () => {
       width="100vw"
       height="100vh"
       viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}
-      stroke="white"
+      //   stroke="white"
       fill="transparent"
       style={{ zIndex: 1 }}
     >
+      <defs>
+        <linearGradient id="myGradient" gradientTransform="rotate(90)">
+          <stop offset="5%" stop-color="#39c5bb" />
+          <stop offset="95%" stop-color="white" />
+        </linearGradient>
+      </defs>
       <g
         id="svgGroup"
         strokeLinecap="round"
         fillRule="evenodd"
         strokeWidth="0.25mm"
-        fill="none"
+        stroke="url('#myGradient')"
         transform="rotate(-10 0 0) translate(-100, 150) skewX(15) "
       >
         <svg
