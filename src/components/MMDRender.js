@@ -214,14 +214,15 @@ const MMDContainer = ({ name, model }) => {
 };
 
 const MMDRender = ({ name, model }) => {
-  if (!name) {
-    return <Box>"aaaaaa"</Box>;
-  }
-
   return (
-    <div id={'mmd' + name}>
-      <MMDContainer name={name} model={model} />
-    </div>
+    <Box position="relative">
+      <Box id={'mmd' + name}>
+        <MMDContainer name={name} model={model} />
+      </Box>
+      <Box position="absolute" bottom="0" fontSize="1rem">
+        {name}
+      </Box>
+    </Box>
   );
 };
 

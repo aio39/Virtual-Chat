@@ -21,7 +21,14 @@ const StartBtn = () => {
 
   return (
     <Link to="/chat">
-      <CMButton onClick={handleStart}>Start</CMButton>
+      <CMButton
+        onClick={handleStart}
+        size="lg"
+        whileHover={{ scale: 1.2 }}
+        mb="4"
+      >
+        Start
+      </CMButton>
     </Link>
   );
 };

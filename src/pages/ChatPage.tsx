@@ -1,4 +1,4 @@
-import { Center, HStack } from '@chakra-ui/layout';
+import { Box, Center, HStack } from '@chakra-ui/layout';
 import { Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -53,7 +53,7 @@ const ChatPage = () => {
       socket.off('welcome', welcomeCB);
       socket.off('getPeerList', getPeerListCB);
     };
-  }, [setPeersData]);
+  }, [setPeersData, myAvatar, roomName, userName]);
   console.log(peersData);
   return (
     <Center
@@ -78,13 +78,26 @@ const ChatPage = () => {
       >
         <MMDRender name={userName} model={myAvatar}></MMDRender>
         <MessageChat />
-        {peersData
-          .filter((data) => data.name !== userName)
-          .map((data) => (
-            <MMDRender name={data.name} model={data.avatar}></MMDRender>
-          ))}
+        {peersData.length === 0 ? (
+          <Box
+            width={window.innerWidth / 3}
+            height={window.innerWidth / 3}
+            bgColor="white"
+          ></Box>
+        ) : (
+          peersData
+            .filter((data) => data.name !== userName)
+            .map((data) => (
+              <MMDRender name={data.name} model={data.avatar}></MMDRender>
+            ))
+        )}
       </HStack>
-      <Stream></Stream>
+      {window.myData.myStream ? (
+        <Stream></Stream>
+      ) : (
+        <Box> 스트림이 없습니다.</Box>
+      )}
+
       <Link to="/select"></Link>
       <DatController></DatController>
     </Center>
