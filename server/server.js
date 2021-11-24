@@ -123,6 +123,9 @@ wsServer.on('connection', (socket) => {
 
 const handleListen = () =>
   console.log(
-    `Listening ! PORT: ${process.env.SERVER_PORT} ${process.env.PORT}`
+    `Listening ! PORT: ${process.env.SERVER_PORT} ,${process.env.PORT} `
   );
-httpServer.listen(process.env.SERVER_PORT || 80, handleListen);
+httpServer.listen(
+  process.env.SERVER_PORT || process.env.PORT || 80,
+  handleListen
+);
