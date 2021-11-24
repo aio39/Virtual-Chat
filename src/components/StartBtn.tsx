@@ -1,5 +1,4 @@
 import { Link } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import {
@@ -8,6 +7,7 @@ import {
   userNameAtom,
 } from '../lib/recoil/shareDataAtom';
 import { makeConnection } from '../lib/socket';
+import { CMButton } from './chakraFactory';
 
 const StartBtn = () => {
   const userName = useRecoilValue(userNameAtom);
@@ -21,14 +21,7 @@ const StartBtn = () => {
 
   return (
     <Link to="/chat">
-      <Button
-        size="lg"
-        colorScheme="teal"
-        variant="solid"
-        onClick={handleStart}
-      >
-        Start
-      </Button>
+      <CMButton onClick={handleStart}>Start</CMButton>
     </Link>
   );
 };

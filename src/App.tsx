@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { DatGUIData } from './components/DatController';
+import './global.css';
 import ChatPage from './pages/ChatPage';
 import SelectPage from './pages/SelectPage';
 import TestPage from './pages/TestPage';
@@ -34,6 +35,7 @@ export const App = () => {
     <RecoilRoot>
       <ChakraProvider theme={theme}>
         <AnimatePresence>
+          {/* 바로 하위 항목에만 반응해서 key를 넣어줌. */}
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<WelcomePage />} />
             <Route path="/select" element={<SelectPage />} />
