@@ -15,7 +15,8 @@ const getMedia = async (videoDeviceId?: string, audioDeviceId?: string) => {
   //  myStream에 선택된 device를 넣는다.
   const initialConstrains = {
     audio: true,
-    video: { facingMode: 'user' }, // 전면 카메라
+    // video: { facingMode: 'user' }, // 전면 카메라
+    video: false,
   };
 
   console.log('id', videoDeviceId);
