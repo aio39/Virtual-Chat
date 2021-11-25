@@ -96,7 +96,7 @@ const Stream: FC = () => {
             height="400"
             muted
           ></video> */}
-          <audio ref={audioRef} autoPlay controls></audio>
+          <audio ref={audioRef} id="myFace" autoPlay controls></audio>
         </Box>
         <Box width={aWidth}></Box>
         <Box width={aWidth}>
@@ -108,7 +108,7 @@ const Stream: FC = () => {
             width={aWidth}
             height="400"
           ></video> */}
-          <audio ref={audioPeerRef} autoPlay controls></audio>
+          <audio ref={audioPeerRef} id="peerFace" autoPlay controls></audio>
         </Box>
       </HStack>
     </VStack>

@@ -129,6 +129,10 @@ wsServer.on('connection', (socket) => {
   socket.on('init', (done) => {
     done();
   });
+
+  socket.on('connect_failed', function () {
+    console.log('error');
+  });
 });
 
 const handleListen = () =>
