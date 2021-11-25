@@ -82,8 +82,18 @@ wsServer.on('connection', (socket) => {
   socket.on('result_data', (result) => {
     console.log(result.name);
     if (result != 0) {
-      const { room, name, result_string, start_time } = result;
-      socket.to(room).emit('result_download', name, result_string, start_time);
+      const { room, name, result_string, start_time, emotion_label, emotion } =
+        result;
+      socket
+        .to(room)
+        .emit(
+          'result_download',
+          name,
+          result_string,
+          start_time,
+          emotion_label,
+          emotion
+        );
     }
   });
 

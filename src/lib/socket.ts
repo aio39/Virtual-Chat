@@ -21,15 +21,30 @@ socket.emit('init', () => {
 
 let recentTime = Date.now();
 
-socket.on('result_download', (name, result, videoTimeStamp) => {
-  const now = Date.now();
-  console.log('지연시간', now - videoTimeStamp, result);
-  if (window.myData.animates[name]) {
-    requestAnimationFrame(() => window.myData.animates[name](result));
-  } else {
-    console.info('같은 이름의 사용자가 없습니다.');
+socket.on(
+  'result_download',
+  (name, result, videoTimeStamp, emotion_label, emotion) => {
+    const now = Date.now();
+    const peerDelay = (now - videoTimeStamp) / 1000;
+    console.log('지연시간', peerDelay, result);
+
+    if (
+      window.myData.myName !== name &&
+      Math.abs(window.myData.peerDelay - peerDelay) >= 0.15
+    ) {
+      //@ts-ignore
+      window.myData.myPeerConnection.getReceivers()[0].playoutDelayHint =
+        peerDelay;
+    }
+
+    console.log(emotion_label, emotion);
+    if (window.myData.animates[name]) {
+      requestAnimationFrame(() => window.myData.animates[name](result));
+    } else {
+      console.info('같은 이름의 사용자가 없습니다.');
+    }
   }
-});
+);
 
 // WebRTC
 

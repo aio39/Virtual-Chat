@@ -17,6 +17,8 @@ declare global {
       myStream: MediaStream;
       peerStream: MediaStream;
       roomName: string;
+      myName: string;
+      peerDelay: number;
       animates: {
         [key: string]: (result: any) => void;
       };
@@ -26,7 +28,7 @@ declare global {
 }
 
 // @ts-ignore
-window.myData = { animates: {} };
+window.myData = { animates: {}, peerDelay: 0 };
 
 export const App = () => {
   const location = useLocation();

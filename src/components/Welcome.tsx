@@ -70,7 +70,10 @@ const RoomInput = () => {
           focusBorderColor="pink.400"
           value={inputUserName}
           placeholder="User Name"
-          onChange={(a) => setInputUserName(a.target.value)}
+          onChange={(a) => {
+            setInputUserName(a.target.value);
+            window.myData.myName = a.target.value;
+          }}
           autoFocus
         ></Input>
       </MotionFormControl>

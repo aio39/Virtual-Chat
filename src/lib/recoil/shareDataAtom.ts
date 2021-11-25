@@ -8,12 +8,12 @@ const generateRandomName = (size: number = 5) => {
 
 const roomNameAtom = atom<string>({
   key: 'roomName',
-  default: generateRandomName(5),
+  default: '',
 });
 
 const userNameAtom = atom<string>({
   key: 'userName',
-  default: generateRandomName(5),
+  default: '',
 });
 
 const avatarAtom = atom<string>({
