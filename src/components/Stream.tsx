@@ -18,6 +18,7 @@ const Stream: FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const videoPeerRef = useRef<HTMLVideoElement>(null);
+  const audioPeerRef = useRef<HTMLAudioElement>(null);
   console.log(cameras);
   useEffect(() => {
     if (videoRef.current) {
@@ -30,6 +31,10 @@ const Stream: FC = () => {
 
     if (videoPeerRef.current) {
       videoPeerRef.current.srcObject = window.myData.peerStream;
+    }
+
+    if (audioPeerRef.current) {
+      audioPeerRef.current.srcObject = window.myData.peerStream;
     }
   }, []);
 
@@ -95,14 +100,15 @@ const Stream: FC = () => {
         </Box>
         <Box width={aWidth}></Box>
         <Box width={aWidth}>
-          <video
+          {/* <video
             ref={videoPeerRef}
             id="peerFace"
             autoPlay
             playsInline
             width={aWidth}
             height="400"
-          ></video>
+          ></video> */}
+          <audio ref={audioPeerRef} autoPlay controls></audio>
         </Box>
       </HStack>
     </VStack>
