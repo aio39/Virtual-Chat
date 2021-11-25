@@ -82,7 +82,7 @@ const Stream: FC = () => {
       )} */}
       <HStack width="full" px={3}>
         <Box width={aWidth}>
-          <video
+          {/* <video
             ref={videoRef}
             id="myFace"
             autoPlay
@@ -90,8 +90,8 @@ const Stream: FC = () => {
             width={aWidth}
             height="400"
             muted
-          ></video>
-          {/* <audio ref={audioRef} autoPlay controls></audio> */}
+          ></video> */}
+          <audio ref={audioRef} autoPlay controls></audio>
         </Box>
         <Box width={aWidth}></Box>
         <Box width={aWidth}>
