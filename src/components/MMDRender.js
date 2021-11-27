@@ -310,6 +310,7 @@ const MMDRender = ({ name, model }) => {
       <Button
         position="absolute"
         bottom="-10"
+        right="0"
         color="black"
         size="sm"
         onClick={handleResetMove}
