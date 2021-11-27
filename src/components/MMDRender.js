@@ -23,6 +23,9 @@ const defaultBones = {
   },
 };
 
+// # angry, disgusted, fearful, happy, neutral, sad and surprised
+// 분노, 역겨움, 두려움, 행복, 중립, 슬프고 놀라움
+
 function onProgress(xhr) {
   if (xhr.lengthComputable) {
     const percentComplete = (xhr.loaded / xhr.total) * 100;
@@ -40,7 +43,7 @@ const MMDContainer = ({ name, model }) => {
   useEffect(() => {
     let container, stats, helper;
     let mesh, camera, scene, renderer, effect;
-    let head, left_eye, right_eye, left_arm, right_arm;
+    let head, left_eye, right_eye, left_arm, right_arm, center;
     const ANGLE_CONST = 3.1415926 / 180;
     const clock = new THREE.Clock();
 
@@ -68,7 +71,7 @@ const MMDContainer = ({ name, model }) => {
       const parent = document.getElementById('mmd' + name);
       parent.innerHTML = ''; // 리액트 새로고침될때 초기화 시키기
       camera = new THREE.PerspectiveCamera(20, aspect, 1, 100);
-      camera.position.set(0, 0, 16); // x y z 축  , == position.z = 16
+      camera.position.set(0, -0.3, 14); // x y z 축  , == position.z = 16
 
       // scene
       console.log(modelUrl(model));
@@ -97,8 +100,6 @@ const MMDContainer = ({ name, model }) => {
       const mmdLoader = new MMDLoader();
       helper = new MMDAnimationHelper({ afterglow: 0.0 });
 
-      const filePath = modelUrl(model);
-
       mmdLoader.load(
         modelUrl(model),
         function (object) {
@@ -121,25 +122,69 @@ const MMDContainer = ({ name, model }) => {
           scene.add(physicsHelper);
 
           const bones = physicsHelper.physics.mesh.skeleton.bones;
-          const {
-            head_num,
+          console.log(bones);
+          // const {
+          //   head_num,
+          //   left_eye_num,
+          //   right_eye_num,
+          //   right_arm_num,
+          //   left_arm_num,
+          // } = defaultBones[model];
+
+          let head_num,
             left_eye_num,
             right_eye_num,
             right_arm_num,
             left_arm_num,
-          } = defaultBones[model];
+            center_num;
+
+          bones.slice(0, 200).forEach((bone, idx) => {
+            switch (bone.name) {
+              case '頭':
+                head_num = idx;
+                break;
+              case '右目':
+                right_eye_num = idx;
+                break;
+              case '"左目"':
+                left_eye_num = idx;
+                break;
+              case '右腕':
+                right_arm_num = idx;
+                break;
+              case '左腕':
+                // 左肩C;
+                left_arm_num = idx;
+                break;
+              case '全ての親':
+                center_num = idx;
+                break;
+              default:
+                break;
+            }
+          });
 
           head = bones[head_num];
           left_eye = bones[left_eye_num];
           right_eye = bones[right_eye_num];
+
+          center = bones[center_num];
+
           right_arm = bones[right_arm_num];
           left_arm = bones[left_arm_num];
 
-          right_arm.rotation.y = -30;
-          right_arm.rotation.x = 10;
+          // right_arm.rotateY(THREE.Math.degToRad(20));
+          // right_arm.rotateZ(THREE.Math.degToRad(-30));
+          right_arm.rotation.z = +0.5;
+          right_arm.rotation.y = +0.4;
 
-          // left_arm.rotation.y = +30;
-          // left_arm.rotation.x = 10;
+          // left_arm.rotateY(THREE.Math.degToRad(-20));
+          // left_arm.rotateZ(THREE.Math.degToRad(30));
+          left_arm.rotation.z = -0.5;
+          left_arm.rotation.y = -0.4;
+
+          // helper.update(clock.getDelta());
+          // effect.render(scene, camera);
         },
         onProgress,
         null
@@ -166,6 +211,13 @@ const MMDContainer = ({ name, model }) => {
       const eye_euler = result.eye;
       const mouth = result.mouth;
       const blink = result.blink;
+      const move = result.move;
+
+      if (center && center.position && move) {
+        center.position.x += result.move[0] / 100;
+        center.position.y += result.move[1] / 100;
+      }
+
       if (head) {
         head.rotation.x = Math.round(euler[0]) * ANGLE_CONST;
         head.rotation.y = Math.round(euler[1]) * ANGLE_CONST;

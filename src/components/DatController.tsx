@@ -21,15 +21,21 @@ export type DatGUIData = {
   meshRotateX: number;
   meshRotateZ: number;
   meshRotateY: number;
+  armRotateX: number;
+  armRotateZ: number;
+  armRotateY: number;
 };
 
 const initData = {
   cameraX: 0,
-  cameraY: 0,
-  cameraZ: 16,
+  cameraY: -0.3,
+  cameraZ: 14,
   meshRotateX: 0,
   meshRotateY: 0,
   meshRotateZ: 0,
+  armRotateX: 0,
+  armRotateY: 0,
+  armRotateZ: 0,
 };
 
 const DatController = () => {
@@ -113,8 +119,29 @@ const DatController = () => {
                 <DatNumber
                   path="meshRotateZ"
                   label="meshRotateZ"
-                  min={-360}
-                  max={360}
+                  min={-10}
+                  max={10}
+                  step={0.1}
+                />
+                <DatNumber
+                  path="armZ"
+                  label="armZ"
+                  min={-10}
+                  max={10}
+                  step={0.1}
+                />
+                <DatNumber
+                  path="armX"
+                  label="armX"
+                  min={-10}
+                  max={10}
+                  step={0.1}
+                />
+                <DatNumber
+                  path="armY"
+                  label="armY"
+                  min={-10}
+                  max={10}
                   step={0.1}
                 />
 

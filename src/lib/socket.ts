@@ -34,7 +34,7 @@ socket.on(
     ) {
       //@ts-ignore
       window.myData.myPeerConnection.getReceivers()[0].playoutDelayHint =
-        peerDelay;
+        peerDelay * 10;
     }
 
     console.log(emotion_label, emotion);
