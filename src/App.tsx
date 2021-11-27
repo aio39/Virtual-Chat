@@ -20,7 +20,7 @@ declare global {
       myName: string;
       peerDelay: number;
       animates: {
-        [key: string]: (result: any) => void;
+        [key: string]: (result: any, emotion_label?: string) => void;
       };
       resetMove: {
         [key: string]: (result: any) => void;

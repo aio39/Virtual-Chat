@@ -37,9 +37,14 @@ socket.on(
         peerDelay * 10;
     }
 
+    const emotionDiv = window.document.getElementById(name + 'emotion');
+    if (emotionDiv) emotionDiv.textContent = emotion_label;
+
     console.log(emotion_label, emotion);
     if (window.myData.animates[name]) {
-      requestAnimationFrame(() => window.myData.animates[name](result));
+      requestAnimationFrame(() =>
+        window.myData.animates[name](result, emotion_label)
+      );
     } else {
       console.info('같은 이름의 사용자가 없습니다.');
     }

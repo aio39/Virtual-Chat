@@ -24,8 +24,14 @@ const defaultBones = {
   },
 };
 
-// # angry, disgusted, fearful, happy, neutral, sad and surprised
-// 분노, 역겨움, 두려움, 행복, 중립, 슬프고 놀라움
+// # Angry, Disgusted, Fearful, Happy, Neutral, Sad and Surprised
+// 분노, 　怒り　눈썹
+// 역겨움, 　じと目  + 困る　＋ ｷﾘｯ２
+// 두려움,　(瞳小) ▲
+// 행복,  笑い 눈 にやり にこり
+// 중립,
+// 슬프고  　涙미쿠,　悲しい
+// 놀라움　びっくり
 
 function onProgress(xhr) {
   if (xhr.lengthComputable) {
@@ -195,13 +201,13 @@ const MMDContainer = ({ name, model }) => {
       effect.setSize(width, height);
     }
 
-    function animate(result) {
+    function animate(result, emotion_label) {
       // stats.begin();
-      render(result);
+      render(result, emotion_label);
       // stats.end();
     }
 
-    function render(result) {
+    function render(result, emotion_label) {
       const euler = result.euler;
       const eye_euler = result.eye;
       const mouth = result.mouth;
@@ -229,18 +235,49 @@ const MMDContainer = ({ name, model }) => {
       }
 
       let mouth_index, eye_index;
+      const emotion_index = [];
 
-      if (mouth > 0.6) mouth_index = mesh.morphTargetDictionary['あ'];
-      else if (mouth > 0.4) mouth_index = mesh.morphTargetDictionary['え'];
-      else if (mouth > 0.2) mouth_index = mesh.morphTargetDictionary['う'];
-      // ウィンク２
-      if (blink) {
-        if (blink[0] < 0.1 && blink[1] < 0.1)
-          eye_index = mesh.morphTargetDictionary['まばたき'];
-        else if (blink[0] < 0.1)
-          eye_index = mesh.morphTargetDictionary['ウィンク２'];
-        else if (blink[1] < 0.1)
-          eye_index = mesh.morphTargetDictionary['ｳｨﾝｸ２右'];
+      if (mouth > 0.5) mouth_index = mesh.morphTargetDictionary['あ'];
+      else if (mouth > 0.3) mouth_index = mesh.morphTargetDictionary['え'];
+      else if (mouth > 0.1) mouth_index = mesh.morphTargetDictionary['う'];
+
+      switch (emotion_label) {
+        case 'Angry':
+          emotion_index.push(mesh.morphTargetDictionary['怒り']);
+          break;
+        case 'Disgusted':
+          emotion_index.push(mesh.morphTargetDictionary['じと目']);
+          emotion_index.push(mesh.morphTargetDictionary['困る']);
+          emotion_index.push(mesh.morphTargetDictionary['ｷﾘｯ２']);
+          break;
+        case 'Fearful':
+          // emotion_index.push(mesh.morphTargetDictionary['▲']); 비정상적으로 확률이 높음
+          break;
+        case 'Happy':
+          emotion_index.push(mesh.morphTargetDictionary['笑い']);
+          emotion_index.push(mesh.morphTargetDictionary['にやり']);
+          emotion_index.push(mesh.morphTargetDictionary['にこり']);
+          break;
+        case 'Sad':
+          emotion_index.push(mesh.morphTargetDictionary['涙']);
+          emotion_index.push(mesh.morphTargetDictionary['悲しい']);
+          break;
+        case 'Surprised':
+          emotion_index.push(mesh.morphTargetDictionary['びっくり']);
+          break;
+        default:
+          break;
+      }
+
+      if (!['Happy'].includes(emotion_label)) {
+        if (blink) {
+          if (blink[0] < 0.3 && blink[1] < 0.3)
+            eye_index = mesh.morphTargetDictionary['まばたき'];
+          else if (blink[0] < 0.22)
+            eye_index = mesh.morphTargetDictionary['ウィンク２'];
+          else if (blink[1] < 0.22)
+            eye_index = mesh.morphTargetDictionary['ｳｨﾝｸ２右'];
+        }
       }
 
       if (mouth_index) {
@@ -251,9 +288,16 @@ const MMDContainer = ({ name, model }) => {
         mesh.morphTargetInfluences[eye_index] = 1;
       }
 
+      emotion_index.forEach((index) => {
+        if (index) {
+          mesh.morphTargetInfluences[index] = 1;
+        }
+      });
+
       helper.update(clock.getDelta());
       effect.render(scene, camera);
 
+      //
       if (mouth_index) {
         mesh.morphTargetInfluences[mouth_index] = 0;
       }
@@ -261,6 +305,12 @@ const MMDContainer = ({ name, model }) => {
       if (eye_index) {
         mesh.morphTargetInfluences[eye_index] = 0;
       }
+
+      emotion_index.forEach((index) => {
+        if (index) {
+          mesh.morphTargetInfluences[index] = 0;
+        }
+      });
     }
 
     function resetMove() {
@@ -304,6 +354,15 @@ const MMDRender = ({ name, model }) => {
       </Box>
       <Box position="absolute" bottom="0" fontSize="1rem" color="black">
         {name}
+      </Box>
+      <Box
+        position="absolute"
+        top="0"
+        fontSize="1rem"
+        color="black"
+        id={name + 'emotion'}
+      >
+        감정
       </Box>
       <Button
         position="absolute"

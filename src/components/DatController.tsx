@@ -28,8 +28,8 @@ export type DatGUIData = {
 
 const initData = {
   cameraX: 0,
-  cameraY: -0.3,
-  cameraZ: 14,
+  cameraY: -0.2,
+  cameraZ: 15,
   meshRotateX: 0,
   meshRotateY: 0,
   meshRotateZ: 0,
