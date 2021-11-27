@@ -124,13 +124,8 @@ const MMDContainer = ({ name, model }) => {
 
           const bones = physicsHelper.physics.mesh.skeleton.bones;
           console.log(bones);
-          // const {
-          //   head_num,
-          //   left_eye_num,
-          //   right_eye_num,
-          //   right_arm_num,
-          //   left_arm_num,
-          // } = defaultBones[model];
+          console.log(physicsHelper);
+          console.log(mesh);
 
           let head_num,
             left_eye_num,
@@ -235,14 +230,17 @@ const MMDContainer = ({ name, model }) => {
 
       let mouth_index, eye_index;
 
-      if (mouth > 0.6) mouth_index = 9;
-      else if (mouth > 0.4) mouth_index = 12;
-      else if (mouth > 0.2) mouth_index = 11;
-
+      if (mouth > 0.6) mouth_index = mesh.morphTargetDictionary['あ'];
+      else if (mouth > 0.4) mouth_index = mesh.morphTargetDictionary['え'];
+      else if (mouth > 0.2) mouth_index = mesh.morphTargetDictionary['う'];
+      // ウィンク２
       if (blink) {
-        if (blink[0] < 0.1 && blink[1] < 0.1) eye_index = 1;
-        else if (blink[0] < 0.1) eye_index = 4;
-        else if (blink[1] < 0.1) eye_index = 5;
+        if (blink[0] < 0.1 && blink[1] < 0.1)
+          eye_index = mesh.morphTargetDictionary['まばたき'];
+        else if (blink[0] < 0.1)
+          eye_index = mesh.morphTargetDictionary['ウィンク２'];
+        else if (blink[1] < 0.1)
+          eye_index = mesh.morphTargetDictionary['ｳｨﾝｸ２右'];
       }
 
       if (mouth_index) {
