@@ -71,7 +71,12 @@ const ChatPage = () => {
           Room: {roomName}
         </Text>
       </HStack>
-      <HStack width="100vw" justifyContent="space-around" position="relative">
+      <HStack
+        width="100vw"
+        justifyContent="space-around"
+        position="relative"
+        color="black"
+      >
         <MMDRender name={userName} model={myAvatar}></MMDRender>
         <MessageChat />
         {peersData.length === 0 ? (

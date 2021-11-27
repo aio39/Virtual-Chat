@@ -22,13 +22,16 @@ declare global {
       animates: {
         [key: string]: (result: any) => void;
       };
+      resetMove: {
+        [key: string]: (result: any) => void;
+      };
       renderByGui: (data: DatGUIData) => void;
     };
   }
 }
 
 // @ts-ignore
-window.myData = { animates: {}, peerDelay: 0 };
+window.myData = { animates: {}, peerDelay: 0, resetMove: {} };
 
 export const App = () => {
   const location = useLocation();

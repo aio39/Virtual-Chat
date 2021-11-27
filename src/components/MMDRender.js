@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/button';
 import { Box } from '@chakra-ui/layout';
 import React, { useEffect } from 'react';
 import * as THREE from 'three';
@@ -204,7 +205,6 @@ const MMDContainer = ({ name, model }) => {
       render(result);
       // stats.end();
     }
-    window.myData.animates[name] = animate;
 
     function render(result) {
       const euler = result.euler;
@@ -265,6 +265,15 @@ const MMDContainer = ({ name, model }) => {
       }
     }
 
+    function resetMove() {
+      if (center && center.position) {
+        center.position.x = 0;
+        center.position.y = 0;
+      }
+      helper.update(clock.getDelta());
+      effect.render(scene, camera);
+    }
+
     function renderByGui(data) {
       camera.position.x = data.cameraX;
       camera.position.z = data.cameraZ;
@@ -278,20 +287,35 @@ const MMDContainer = ({ name, model }) => {
       effect.render(scene, camera);
     }
     window.myData.renderByGui = renderByGui;
+    window.myData.animates[name] = animate;
+    window.myData.resetMove[name] = resetMove;
   }, [model, name]);
 
   return <div></div>;
 };
 
 const MMDRender = ({ name, model }) => {
+  const handleResetMove = () => {
+    window.myData.resetMove[name]();
+  };
+
   return (
     <Box position="relative">
       <Box id={'mmd' + name}>
         <MMDContainer name={name} model={model} />
       </Box>
-      <Box position="absolute" bottom="0" fontSize="1rem">
+      <Box position="absolute" bottom="0" fontSize="1rem" color="black">
         {name}
       </Box>
+      <Button
+        position="absolute"
+        bottom="-10"
+        color="black"
+        size="sm"
+        onClick={handleResetMove}
+      >
+        위치 리셋
+      </Button>
     </Box>
   );
 };
