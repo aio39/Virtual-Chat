@@ -27,6 +27,7 @@ const Stream: FC = () => {
 
     if (audioRef.current) {
       audioRef.current.srcObject = window.myData.myStream;
+      audioRef.current.volume = 0;
     }
 
     if (videoPeerRef.current) {
@@ -96,7 +97,12 @@ const Stream: FC = () => {
             height="400"
             muted
           ></video> */}
-          <audio ref={audioRef} id="myFace" autoPlay controls></audio>
+          <audio
+            ref={audioRef}
+            id="myFace"
+            // autoPlay
+            controls
+          ></audio>
         </Box>
         <Box width={aWidth}></Box>
         <Box width={aWidth}>
