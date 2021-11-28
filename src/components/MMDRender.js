@@ -334,9 +334,9 @@ const MMDContainer = ({ name, model }) => {
       helper.update(clock.getDelta());
       effect.render(scene, camera);
     }
-    window.myData.renderByGui = renderByGui;
     window.myData.animates[name] = animate;
     window.myData.resetMove[name] = resetMove;
+    window.myData.renderByGui[name] = renderByGui;
   }, [model, name]);
 
   return <div></div>;

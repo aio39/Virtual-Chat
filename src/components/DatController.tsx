@@ -10,7 +10,7 @@ import {
   DrawerOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import DatGui, { DatNumber } from 'react-dat-gui';
 import 'react-dat-gui/dist/index.css';
 
@@ -32,7 +32,7 @@ const initData = {
   meshRotateZ: 0,
 };
 
-const DatController = () => {
+const DatController: FC<{ name: string; mt?: number }> = ({ name, mt }) => {
   const [data, setData] = useState<DatGUIData>(initData);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
@@ -41,18 +41,18 @@ const DatController = () => {
       ...prev,
       ...newData,
     }));
-    window.myData.renderByGui(newData);
+    window.myData.renderByGui[name](newData);
   };
 
   const reset = () => {
     setData(initData);
-    window.myData.renderByGui(initData);
+    window.myData.renderByGui[name](initData);
   };
 
   return (
-    <Box position="fixed" top="0" right="0">
+    <Box position="fixed" top={mt ? mt * 45 : '0px'} right="0">
       <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
-        Open
+        Open {name}
       </Button>
       <Drawer
         isOpen={isOpen}

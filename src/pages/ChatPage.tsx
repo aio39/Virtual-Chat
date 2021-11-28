@@ -78,6 +78,7 @@ const ChatPage = () => {
         color="black"
       >
         <MMDRender name={userName} model={myAvatar}></MMDRender>
+        <DatController name={userName}></DatController>
         <MessageChat />
         {peersData.length === 0 ? (
           <Center
@@ -90,13 +91,14 @@ const ChatPage = () => {
         ) : (
           peersData
             .filter((data) => data.name !== userName)
-            .map((data) => (
-              <MMDRender name={data.name} model={data.avatar}></MMDRender>
+            .map((data, idx) => (
+              <div key={idx}>
+                <MMDRender name={data.name} model={data.avatar}></MMDRender>
+                <DatController name={data.name} mt={idx + 1}></DatController>
+              </div>
             ))
         )}
       </HStack>
-
-      <DatController></DatController>
 
       {window.myData.myStream ? (
         <Stream></Stream>
