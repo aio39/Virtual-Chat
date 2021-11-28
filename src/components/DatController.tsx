@@ -21,9 +21,6 @@ export type DatGUIData = {
   meshRotateX: number;
   meshRotateZ: number;
   meshRotateY: number;
-  armRotateX: number;
-  armRotateZ: number;
-  armRotateY: number;
 };
 
 const initData = {
@@ -33,9 +30,6 @@ const initData = {
   meshRotateX: 0,
   meshRotateY: 0,
   meshRotateZ: 0,
-  armRotateX: 0,
-  armRotateY: 0,
-  armRotateZ: 0,
 };
 
 const DatController = () => {
@@ -105,44 +99,23 @@ const DatController = () => {
                 <DatNumber
                   path="meshRotateX"
                   label="meshRotateX"
-                  min={-360}
-                  max={360}
-                  step={0.1}
+                  min={-Math.PI}
+                  max={Math.PI}
+                  step={0.01}
                 />
                 <DatNumber
                   path="meshRotateY"
                   label="meshRotateY"
-                  min={-360}
-                  max={360}
-                  step={0.1}
+                  min={-Math.PI}
+                  max={Math.PI}
+                  step={0.01}
                 />
                 <DatNumber
                   path="meshRotateZ"
                   label="meshRotateZ"
-                  min={-10}
-                  max={10}
-                  step={0.1}
-                />
-                <DatNumber
-                  path="armZ"
-                  label="armZ"
-                  min={-10}
-                  max={10}
-                  step={0.1}
-                />
-                <DatNumber
-                  path="armX"
-                  label="armX"
-                  min={-10}
-                  max={10}
-                  step={0.1}
-                />
-                <DatNumber
-                  path="armY"
-                  label="armY"
-                  min={-10}
-                  max={10}
-                  step={0.1}
+                  min={-Math.PI}
+                  max={Math.PI}
+                  step={0.01}
                 />
 
                 {/* <DatBoolean path="isAwesome" label="Awesome?" /> */}
