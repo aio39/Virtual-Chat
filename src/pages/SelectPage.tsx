@@ -1,14 +1,12 @@
 import { Image } from '@chakra-ui/image';
-import { Box, BoxProps, Center, HStack, Text } from '@chakra-ui/layout';
+import { Box, Center, HStack, Text } from '@chakra-ui/layout';
 import { motion, useAnimation } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import StartBtn from '../components/StartBtn';
 import { avatarAtom } from '../lib/recoil/shareDataAtom';
 
-const MotionBox = motion<BoxProps>(Box);
-
-export const AvatarList = ['miku', 'kizunaai', 'rin'];
+export const AvatarList = ['miku', 'kizunaai', 'rin', 'toufu', 'tda'];
 
 const SelectPage = () => {
   const [selected, setSelected] = useRecoilState(avatarAtom);
