@@ -121,7 +121,7 @@ const MMDContainer = ({ name, model }) => {
           helper.add(mesh, { physics: true });
 
           const ikHelper = helper.objects.get(mesh).ikSolver.createHelper();
-          ikHelper.visible = true;
+          ikHelper.visible = false;
           scene.add(ikHelper);
 
           const physicsHelper = helper.objects.get(mesh).physics.createHelper();
