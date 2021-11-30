@@ -3,9 +3,9 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import { Server } from 'socket.io';
-require('dotenv').config();
 const { createAdapter } = require('@socket.io/redis-adapter');
 const { createClient } = require('redis');
+require('dotenv').config();
 
 const app = express();
 
@@ -31,11 +31,13 @@ const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer, {
   cors: {
     origin: '*',
-    // method: ['GET', 'POST'],
   },
 });
 
-wsServer.adapter(createAdapter(pubClient, subClient));
+if (process.env.SERVER_PORT) {
+  console.info('Redis 서버 연결');
+  wsServer.adapter(createAdapter(pubClient, subClient));
+}
 
 wsServer.on('connection', (socket) => {
   const transport = socket.conn.transport.name; // in most cases, "polling"
@@ -60,6 +62,7 @@ wsServer.on('connection', (socket) => {
     socket.emit('getPeerList', peerList);
     socket.to(roomName).emit('welcome', name, avatar);
   });
+
   // for text chat
   socket.on('sendMessage', (message) => {
     socket
@@ -78,7 +81,7 @@ wsServer.on('connection', (socket) => {
     socket.emit('return_py_order', count);
   });
 
-  //  MMD
+  // for MMD render
   socket.on('result_data', (result) => {
     console.log(result.name);
     if (result != 0) {
@@ -137,8 +140,11 @@ wsServer.on('connection', (socket) => {
 
 const handleListen = () =>
   console.log(
-    `Listening ! PORT: ${process.env.SERVER_PORT} ,${process.env.PORT} `
+    `Listening ! PORT: ${process.env.SERVER_PORT ?? process.env.PORT} , ${
+      process.env.SERVER_PORT ? 'SERVER PORT' : 'PORT'
+    } `
   );
+
 httpServer.listen(
   process.env.SERVER_PORT || process.env.PORT || 80,
   handleListen
