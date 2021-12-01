@@ -1,15 +1,17 @@
-import service
-import cv2
 import sys
 import time
-import socketio
-from threading import Thread
 from queue import Queue
+from threading import Thread
 
-if sys.argv[1]:
+import cv2
+import socketio
+
+import service
+
+if len(sys.argv) >= 2:
     sys.argv[1] = int(sys.argv[1])
 else:
-    sys.argv[1] = int(input('Input your camera number id: '))
+    sys.argv.append(int(input('Input your camera number id: ')));
 
 # log verbose
 is_log = True if len(sys.argv) >= 3 and sys.argv[2] == 'log' else False
@@ -35,6 +37,9 @@ box_queue = Queue(maxsize=QUEUE_BUFFER_SIZE)
 emotion_box_queue = Queue(maxsize=QUEUE_BUFFER_SIZE)
 landmark_queue = Queue(maxsize=QUEUE_BUFFER_SIZE)
 iris_queue = Queue(maxsize=QUEUE_BUFFER_SIZE)
+
+emotion = []
+emotion_label = 'netural'
 
 # 카메라에서 프레임(한장)을 빼내서 얼굴 위치를 찾고 프레임과 박스를 큐에 넣기
 def face_detection():
@@ -105,11 +110,14 @@ def face_alignment():
             log_print("랜드마크:", time.perf_counter() - landmark_take_time)
 
 def iris_localization(YAW_THD=45):
-    global user_name,room_name
+    global user_name, room_name
+    global emotion, emotion_label
+    global is_local_node
 
     sio = socketio.Client()
 
-    server_url =  "https://virtual-chat-aio.herokuapp.com/" if is_local_node else  "http://localhost:3001/"
+    server_url =  "http://localhost:3001/" if is_local_node else "https://virtual-chat-aio.herokuapp.com/"
+
     sio.connect(server_url)
 
     for_socket_frequency = time.perf_counter()
