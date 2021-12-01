@@ -20,13 +20,6 @@ app.get('*', (_, res) =>
   res.sendFile(path.join(__dirname, '/dist/index.html'))
 );
 
-const pubClient = createClient({
-  host: process.env.REDIS_URL,
-  port: process.env.REDIS_PORT,
-  password: process.env.REDIS_PASSWORD,
-});
-const subClient = pubClient.duplicate();
-
 const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer, {
   cors: {
@@ -34,8 +27,14 @@ const wsServer = new Server(httpServer, {
   },
 });
 
-if (process.env.SERVER_PORT || !process.env.REDIS_URL) {
+if (process.env.REDIS_URL) {
   console.info('Redis 서버 연결');
+  const pubClient = createClient({
+    host: process.env.REDIS_URL,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD,
+  });
+  const subClient = pubClient.duplicate();
   wsServer.adapter(createAdapter(pubClient, subClient));
 }
 

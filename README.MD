@@ -25,5 +25,6 @@ Three JS를 이용해 3D 모델링 실시간 랜더링
 - https://github.com/1996scarlet/faster-mobile-retinaface
 - https://github.com/nomadcoders/noom
 - https://github.com/omar178/Emotion-recognition
+- https://github.com/1996scarlet/OpenVtuber
 - https://github.com/1996scarlet/Laser-Eye
 - https://github.com/1996scarlet/Dense-Head-Pose-Estimation
