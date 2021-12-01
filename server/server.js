@@ -34,7 +34,7 @@ const wsServer = new Server(httpServer, {
   },
 });
 
-if (process.env.SERVER_PORT) {
+if (process.env.SERVER_PORT || !process.env.REDIS_URL) {
   console.info('Redis 서버 연결');
   wsServer.adapter(createAdapter(pubClient, subClient));
 }
